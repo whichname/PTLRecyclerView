@@ -22,9 +22,11 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
     }
 
     protected HeaderAndFooterAdapter mAdapter;
+    protected Adapter mRealAdapter;
 
     @Override
     public void setAdapter(Adapter adapter) {
+        mRealAdapter = adapter;
         if (adapter instanceof HeaderAndFooterAdapter) {
             mAdapter = (HeaderAndFooterAdapter) adapter;
         }
@@ -32,6 +34,11 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
             mAdapter = new HeaderAndFooterAdapter(getContext(),adapter);
         }
         super.setAdapter(mAdapter);
+    }
+
+    @Override
+    public Adapter getAdapter() {
+        return mRealAdapter;
     }
 
     public void addHeaderView(View view) {

@@ -69,9 +69,11 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     };
 
     private PullToLoadAdapter mAdapter;
+    private Adapter mRealAdapter;
 
     @Override
     public void setAdapter(Adapter adapter) {
+        mRealAdapter = adapter;
         if (adapter instanceof PullToLoadAdapter) {
             mAdapter = (PullToLoadAdapter) adapter;
         } else {
@@ -84,7 +86,6 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter.setBottomView(bottomView);
         }
     }
-
 
     private void init(Context context) {
         if (bottomView == null) {
@@ -290,5 +291,9 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         this.isAbleToLoad = isAbleToLoad;
     }
 
+    /**获得真正的adapter，这里不能重写getAdapter，否则无法上拉*/
+    public Adapter getRealAdapter() {
+        return mRealAdapter;
+    }
 
 }

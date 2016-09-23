@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
 
         testAdapter = new TestAdapter(imgs,this);
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         rcv.setRefreshView(R.layout.layout_header_ptr_recyclerview);
         rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
         rcv.setAdapter(testAdapter);
