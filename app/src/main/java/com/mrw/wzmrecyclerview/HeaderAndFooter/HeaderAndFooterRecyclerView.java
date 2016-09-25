@@ -36,11 +36,6 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         super.setAdapter(mAdapter);
     }
 
-    @Override
-    public Adapter getAdapter() {
-        return mRealAdapter;
-    }
-
     public void addHeaderView(View view) {
         if (null == view) {
             throw new IllegalArgumentException("the view to add must not be null !");
@@ -78,6 +73,11 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         } else {
             mAdapter.removeFooterView(view);
         }
+    }
+
+    /**获得真正的adapter*/
+    public Adapter getRealAdapter() {
+        return mRealAdapter;
     }
 
 }

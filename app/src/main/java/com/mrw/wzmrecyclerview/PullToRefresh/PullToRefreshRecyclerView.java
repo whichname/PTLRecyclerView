@@ -253,6 +253,13 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
         return mRefreshView;
     }
 
+    /**获得刷新View和顶部填充view的个数，用于绘制分割线*/
+    public int getRefreshViewCount() {
+        if (mRefreshView != null)
+            return 2;
+        return 0;
+    }
+
     /**设置是否可以下拉*/
     public void setRefreshEnable(boolean isAbleToRefresh) {
         this.isAbleToRefresh = isAbleToRefresh;

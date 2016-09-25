@@ -104,7 +104,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         if (loadView != null && mLoadViewHeight == 0) {
             mLoadViewHeight = loadView.getMeasuredHeight();
             MarginLayoutParams marginLayoutParams = (MarginLayoutParams) getLayoutParams();
-            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin-mLoadViewHeight-1);
+            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin - mLoadViewHeight - 1);
             setLayoutParams(marginLayoutParams);
 //            高度测量之后将其从头部中去掉
             removeHeaderView(loadView);
@@ -287,11 +287,19 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         return mLoadView;
     }
 
+    /**获得加载中View和底部填充view的个数，用于绘制分割线*/
+    public int getLoadViewCount() {
+        if (mLoadView != null)
+            return 2;
+        return 0;
+    }
+
     public void setLoadEnable(boolean isAbleToLoad) {
         this.isAbleToLoad = isAbleToLoad;
     }
 
-    /**获得真正的adapter，这里不能重写getAdapter，否则无法上拉*/
+    /**获得真正的adapter*/
+    @Override
     public Adapter getRealAdapter() {
         return mRealAdapter;
     }
