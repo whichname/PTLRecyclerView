@@ -32,23 +32,23 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
     public BaseItemDecoration(Context mContext, int res) {
         this.mContext = mContext;
         this.mDivider = getDivider(res);
-        this.mHeight = mDivider.getIntrinsicHeight() == 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
-        this.mWidth = mDivider.getIntrinsicWidth() == 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
+        this.mHeight = mDivider.getIntrinsicHeight() <= 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
+        this.mWidth = mDivider.getIntrinsicWidth() <= 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
     }
 
     public BaseItemDecoration(Context mContext, int res,BaseItemDecorationHelper itemDecorationHelper) {
         this.mContext = mContext;
         this.mDivider = getDivider(res);
-        this.mHeight = mDivider.getIntrinsicHeight() == 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
-        this.mWidth = mDivider.getIntrinsicWidth() == 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
+        this.mHeight = mDivider.getIntrinsicHeight() <= 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
+        this.mWidth = mDivider.getIntrinsicWidth() <= 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
         this.mItemDecorationHelper = itemDecorationHelper;
     }
 
     public BaseItemDecoration(Context mContext, Drawable mDivider,BaseItemDecorationHelper itemDecorationHelper) {
         this.mContext = mContext;
         this.mDivider = mDivider;
-        this.mHeight = mDivider.getIntrinsicHeight() == 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
-        this.mWidth = mDivider.getIntrinsicWidth() == 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
+        this.mHeight = mDivider.getIntrinsicHeight() <= 0 ? dp2px(5) : mDivider.getIntrinsicHeight();
+        this.mWidth = mDivider.getIntrinsicWidth() <= 0 ? dp2px(5) : mDivider.getIntrinsicWidth();
         this.mItemDecorationHelper = itemDecorationHelper;
     }
 
@@ -91,7 +91,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
-
+            mItemDecorationHelper = new GridItemDecorationHelper();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
 
         } else if (layoutManager instanceof LinearLayoutManager) {
@@ -111,7 +111,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
-
+            mItemDecorationHelper = new GridItemDecorationHelper();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
 
         } else if (layoutManager instanceof LinearLayoutManager) {

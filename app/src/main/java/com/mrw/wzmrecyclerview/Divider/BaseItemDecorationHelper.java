@@ -37,7 +37,7 @@ public abstract class BaseItemDecorationHelper {
         if (parent.getAdapter() != null && parent.getAdapter() instanceof HeaderAndFooterAdapter) {
             int position = parent.getChildAdapterPosition(view);
             final HeaderAndFooterAdapter adapter = (HeaderAndFooterAdapter) parent.getAdapter();
-            return position >= adapter.getItemCount() - adapter.getFootersCount();
+            return position >= adapter.getHeadersCount() + adapter.getRealItemCount();
         }
         return false;
     }

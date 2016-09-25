@@ -8,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.Divider.DividerItemDecoration;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
@@ -63,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         testAdapter = new TestAdapter(imgs,this);
 //        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-//        rcv.setLayoutManager(new GridLayoutManager(this,2));
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rcv.setLayoutManager(new GridLayoutManager(this,2));
+//        rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         rcv.setRefreshView(R.layout.layout_header_ptr_recyclerview);
         rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
         rcv.setAdapter(testAdapter);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //                rcv.completeLoad();
             }
         });
-        rcv.addItemDecoration(new DividerItemDecoration(this,R.color.colorAccent));
+        rcv.addItemDecoration(new BaseItemDecoration(this, R.color.colorAccent));
 
     }
 

@@ -15,33 +15,56 @@ public class GridItemDecorationHelper extends BaseItemDecorationHelper {
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, Drawable divider, int height, int width) {
-        drawVertical(c,parent,divider,width);
-        drawHorizontal(c,parent,divider,height,width);
+        drawVertical(c, parent, divider, width);
+        drawHorizontal(c, parent, divider, height, width);
     }
 
+//    TODO
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, int height, int width) {
 //        若是刷新头部 || 加载尾部，不偏移
         if (isRefreshView(parent, view) || isLoadView(parent, view))
             return;
-//        若是头部 || 尾部 || 最后一列，只向下偏移
-        if (isHeaderView(parent,view) || isFooterView(parent,view) || isLastColumn(parent,view,getSpanCount(parent))) {
+//        若是头部 ，只向下偏移
+        if (isHeaderView(parent, view)) {
+            outRect.set(0, 0, 0, height);
+            return;
+        }
+//        若是尾部且尾部是最后一行，不偏移
+        if (isFooterView(parent,view) && isLastRaw(parent,view,getSpanCount(parent),parent.getAdapter().getItemCount()))
+            return;
+//        若是尾部，只向下偏移
+        if (isFooterView(parent,view)) {
+            outRect.set(0, 0, 0, height);
+            return;
+        }
+//      若是最后一行且最后一列，不偏移
+        if (isLastColumn(parent, view, getSpanCount(parent)) && isLastRaw(parent,view,getSpanCount(parent),parent.getAdapter().getItemCount()))
+            return;
+//        若是最后一列，只向下偏移
+        if (isLastColumn(parent, view, getSpanCount(parent))) {
             outRect.set(0,0,0,height);
             return;
         }
+//        若是最后一行，只向右偏移
+        if (isLastRaw(parent, view, getSpanCount(parent), parent.getAdapter().getItemCount())) {
+            outRect.set(0, 0, width, 0);
+            return;
+        }
 
-
-
+        outRect.set(0, 0, width, height);
     }
 
-    /**绘制垂直分割线*/
-    private void drawVertical(Canvas canvas,RecyclerView parent,Drawable divider,int width) {
+    /**
+     * 绘制垂直分割线
+     */
+    private void drawVertical(Canvas canvas, RecyclerView parent, Drawable divider, int width) {
         final int childCount = parent.getChildCount();
         final int spanCount = getSpanCount(parent);
-        for (int i = 0; i <childCount; i++) {
+        for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
 //            若是头部 || 尾部 || 最后一列，不绘制
-            if (isHeaderView(parent, child) || isFooterView(parent, child) || isLastColumn(parent,child,spanCount))
+            if (isHeaderView(parent, child) || isFooterView(parent, child) || isLastColumn(parent, child, spanCount))
                 continue;
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
@@ -54,15 +77,17 @@ public class GridItemDecorationHelper extends BaseItemDecorationHelper {
         }
     }
 
-    /**绘制水平分割线*/
-    private void drawHorizontal(Canvas canvas,RecyclerView parent,Drawable divider,int height,int width) {
+    /**
+     * 绘制水平分割线
+     */
+    private void drawHorizontal(Canvas canvas, RecyclerView parent, Drawable divider, int height, int width) {
         final int childCount = parent.getChildCount();
         final int spanCount = getSpanCount(parent);
         final int itemCount = parent.getAdapter().getItemCount();
-        for (int i = 0; i <childCount; i++) {
+        for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
 //            若是刷新头部 || 加载尾部 || 最后一行，不绘制
-            if (isRefreshView(parent, child) || isLoadView(parent, child) || isLastRaw(parent, child, spanCount,itemCount))
+            if (isRefreshView(parent, child) || isLoadView(parent, child) || isLastRaw(parent, child, spanCount, itemCount))
                 continue;
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
@@ -77,34 +102,45 @@ public class GridItemDecorationHelper extends BaseItemDecorationHelper {
     }
 
 
-
-
-    /**是不是最后一列*/
-    private boolean isLastColumn(RecyclerView parent,View view,int spanCount) {
+    /**
+     * 是不是最后一列
+     */
+    private boolean isLastColumn(RecyclerView parent, View view, int spanCount) {
         int position = parent.getChildAdapterPosition(view);
-        if ((position + 1) % spanCount == 0)
-        {
+        position -= getHeadersCount(parent);
+        if ((position + 1) % spanCount == 0) {
             return true;
         }
         return false;
     }
 
-    /**是不是最后一行*/
-    private boolean isLastRaw(RecyclerView parent,View view,int spanCount,int itemCount) {
+    /**
+     * 是不是最后一行
+     */
+    private boolean isLastRaw(RecyclerView parent, View view, int spanCount, int itemCount) {
         int position = parent.getChildAdapterPosition(view);
+//        若有尾部
+        if (getFootersCount(parent) > 0) {
 //        若最后一行是尾部
-        if (position >= itemCount - getLoadViewCount(parent)-1)
-            return true;
-
-        itemCount = itemCount - getHeadersCount(parent) - getFootersCount(parent);
+            if (position >= itemCount - getLoadViewCount(parent) - 1)
+                return true;
+            return false;
+        }
+        itemCount = itemCount - getHeadersCount(parent) - getFootersCount(parent) - getLoadViewCount(parent);
         position -= getHeadersCount(parent);
+//        如果刚好最后一行是满的
+        if (itemCount % spanCount == 0) {
+            position += spanCount;
+        }
         itemCount = itemCount - itemCount % spanCount;
         if (position >= itemCount)
             return true;
         return false;
     }
 
-    /**获得列数*/
+    /**
+     * 获得列数
+     */
     private int getSpanCount(RecyclerView parent) {
         GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
         return layoutManager.getSpanCount();

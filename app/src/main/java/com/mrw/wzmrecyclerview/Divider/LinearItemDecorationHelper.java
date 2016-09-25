@@ -81,11 +81,13 @@ public class LinearItemDecorationHelper extends BaseItemDecorationHelper {
     }
 
     private static boolean isLastItem(RecyclerView parent, View view) {
+        if (parent.getAdapter() == null)
+            return false;
         int position = parent.getChildAdapterPosition(view);
 //        若是头尾部适配器
-        if (parent.getAdapter() != null && parent.getAdapter() instanceof HeaderAndFooterAdapter) {
+        if (parent.getAdapter() instanceof HeaderAndFooterAdapter) {
             HeaderAndFooterAdapter adapter = (HeaderAndFooterAdapter) parent.getAdapter();
-            return position >= adapter.getItemCount() - adapter.getFootersCount() - 1;
+            return position >= adapter.getHeadersCount() + adapter.getRealItemCount()+adapter.getFootersCount()-1;
         }
         return position >= parent.getAdapter().getItemCount() - 1;
     }
