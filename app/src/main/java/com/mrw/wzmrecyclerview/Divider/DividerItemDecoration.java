@@ -29,8 +29,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private int mHeight;
     private int mWidth;
 
-    private int mRefreshHeaderView = 0;
-    private int mLoadFooterView = 0;
 
     public DividerItemDecoration(Context mContext, int res) {
         this.mContext = mContext;
