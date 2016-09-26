@@ -109,6 +109,20 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
 //            高度测量之后将其从头部中去掉
             removeHeaderView(loadView);
         }
+//        若数据不满一屏
+        if (getChildCount() >= getAdapter().getItemCount()) {
+            if (mLoadView.getVisibility() != GONE) {
+                mLoadView.setVisibility(GONE);
+                mState = STATE_DEFAULT;
+                replyPull();
+            }
+        } else {
+            if (mLoadView.getVisibility() != VISIBLE) {
+                mLoadView.setVisibility(VISIBLE);
+                mState = STATE_DEFAULT;
+                replyPull();
+            }
+        }
     }
 
 
@@ -119,6 +133,10 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
 //        若加载尾部为空，不处理
         if (mLoadView == null)
             return super.onTouchEvent(e);
+//        若当前加载尾部被隐藏(不足一屏)
+        if (mLoadView.getVisibility() != VISIBLE)
+            return super.onTouchEvent(e);
+
 //        若回弹动画正在进行，不处理
         if (valueAnimator != null && valueAnimator.isRunning())
             return super.onTouchEvent(e);
@@ -197,13 +215,6 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
      * 拖动或回弹时，改变低部的margin
      */
     private void startPull(float distance) {
-//        if (getLayoutParams() instanceof MarginLayoutParams) {
-//            MarginLayoutParams marginLayoutParams = (MarginLayoutParams) getLayoutParams();
-//            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, (int) (-mLoadViewHeight + distance));
-//            setLayoutParams(marginLayoutParams);
-//        }
-
-
 //            该view的高度不能为0，否则将无法判断是否已滑动到底部
         if (distance < 1)
             distance = 1;

@@ -44,7 +44,8 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
 
 //    是否正在加载
     private boolean isLoadingData = false;
-
+//    是否还有更多
+    private boolean hasMore = true;
 
     @Override
     public void setAdapter(Adapter adapter) {
@@ -60,11 +61,27 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         }
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        //        若数据不满一屏 || 没有更多
+        if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
+            mAdapter.setLoadView(null);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.setLoadView(mLoadView);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-        if (state == RecyclerView.SCROLL_STATE_IDLE && mOnLoadListener != null && !isLoadingData && mLoadView != null) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE
+                && mOnLoadListener != null
+                && !isLoadingData
+                && mLoadView != null
+                && hasMore) {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
@@ -102,6 +119,19 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         if (mOnLoadListener != null)
             mOnLoadListener.onStopLoad();
         isLoadingData = false;
+    }
+
+    /**设置没有更多*/
+    public void hasNoMore(boolean hasMore) {
+        this.hasMore = hasMore;
+        //        若数据不满一屏 || 没有更多
+        if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
+            mAdapter.setLoadView(null);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.setLoadView(mLoadView);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 

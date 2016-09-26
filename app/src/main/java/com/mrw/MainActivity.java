@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PullToLoadRecyclerView rcv;
+    private AutoLoadRecyclerView rcv;
     private TestAdapter testAdapter;
     private ArrayList<String> imgs = new ArrayList<>();
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
+        rcv = (AutoLoadRecyclerView) findViewById(R.id.rcv);
         flEmpty = (FrameLayout) findViewById(R.id.fl_empty);
 
 //        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
@@ -66,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         testAdapter = new TestAdapter(imgs,this);
 //        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 //        rcv.setLayoutManager(new GridLayoutManager(this,2));
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rcv.setRefreshView(R.layout.layout_header_ptr_recyclerview);
         rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
-        rcv.setEmptyView(flEmpty);
+//        rcv.setEmptyView(flEmpty);
         rcv.setAdapter(testAdapter);
         rcv.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -113,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 rcv.completeRefresh();
                 break;
             case R.id.btn_finish_loading:
-                rcv.completeLoad();
+//                rcv.completeLoad();
+                rcv.hasNoMore(false);
                 break;
         }
     }

@@ -111,6 +111,8 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         public void onChanged() {
             if (getAdapter() == null) return;
             Adapter realAdapter = ((HeaderAndFooterAdapter)getAdapter()).getRealAdapter();
+            realAdapter.notifyDataSetChanged();
+            if (mEmptyView == null) return;
             int itemCount = 0;
             if (!showEmptyViewHasHF) {
                 Adapter adapter = getAdapter();
@@ -126,7 +128,6 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
             } else {
                 mEmptyView.setVisibility(GONE);
             }
-            realAdapter.notifyDataSetChanged();
         }
 
     }
