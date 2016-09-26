@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadAdapter;
+import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
@@ -58,6 +60,10 @@ public abstract class BaseItemDecorationHelper {
             int position = parent.getChildAdapterPosition(view);
             PullToLoadRecyclerView pullToLoadRecyclerView = (PullToLoadRecyclerView) parent;
             return position >= parent.getAdapter().getItemCount() - pullToLoadRecyclerView.getLoadViewCount();
+        } else if (parent instanceof AutoLoadRecyclerView) {
+            int position = parent.getChildAdapterPosition(view);
+            AutoLoadRecyclerView autoLoadRecyclerView = (AutoLoadRecyclerView) parent;
+            return position >= parent.getAdapter().getItemCount() - autoLoadRecyclerView.getLoadViewCount();
         }
         return false;
     }
@@ -94,6 +100,9 @@ public abstract class BaseItemDecorationHelper {
         if (parent instanceof PullToLoadRecyclerView) {
             PullToLoadRecyclerView pullToLoadRecyclerView = (PullToLoadRecyclerView) parent;
             return pullToLoadRecyclerView.getLoadViewCount();
+        } else if (parent instanceof AutoLoadRecyclerView) {
+            AutoLoadRecyclerView autoLoadRecyclerView = (AutoLoadRecyclerView) parent;
+            return autoLoadRecyclerView.getLoadViewCount();
         }
         return 0;
     }

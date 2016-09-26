@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
@@ -20,44 +21,47 @@ public class MainActivity extends AppCompatActivity {
     private TestAdapter testAdapter;
     private ArrayList<String> imgs = new ArrayList<>();
 
+    private FrameLayout flEmpty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
+        flEmpty = (FrameLayout) findViewById(R.id.fl_empty);
 
-        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
-        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/7034.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50006/0945.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00040/2066.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00010/8940.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/00041/5575.jpg_wh1200.jpg");
+//        imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
 
         testAdapter = new TestAdapter(imgs,this);
 //        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         rcv.setRefreshView(R.layout.layout_header_ptr_recyclerview);
         rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
+        rcv.setEmptyView(flEmpty);
         rcv.setAdapter(testAdapter);
         rcv.setOnRefreshListener(new OnRefreshListener() {
             @Override

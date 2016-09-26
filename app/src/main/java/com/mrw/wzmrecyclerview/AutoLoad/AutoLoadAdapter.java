@@ -1,4 +1,4 @@
-package com.mrw.wzmrecyclerview.PullToLoad;
+package com.mrw.wzmrecyclerview.AutoLoad;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,19 +10,17 @@ import android.view.ViewGroup;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
 
 /**
- * Created by Administrator on 2016/9/23.
+ * Created by Administrator on 2016/9/26.
  */
-public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFooterAdapter {
+public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFooterAdapter {
 
     private static final int ITEM_TYPE_LOAD = 30000000;
-    private static final int ITEM_TYPE_BOTTOM = ITEM_TYPE_LOAD+1;
 
     private View mLoadView;
-    private View mBottomView;
 
     protected T mRealAdapter;
 
-    public PullToLoadAdapter(Context mContext, T mRealAdapter) {
+    public AutoLoadAdapter(Context mContext, T mRealAdapter) {
         super(mContext, mRealAdapter);
         this.mRealAdapter = mRealAdapter;
     }
@@ -33,20 +31,15 @@ public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAnd
 
     @Override
     public int getItemCount() {
-        if (mLoadView == null && mBottomView == null)
-            return super.getItemCount();
-        if (mLoadView == null || mBottomView == null)
-            return super.getItemCount()+1;
-        return super.getItemCount()+2;
+        if (mLoadView != null)
+            return super.getItemCount() + 1;
+        return super.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (isLoadPosition(position)) {
             return ITEM_TYPE_LOAD;
-        }
-        if (isBottomPosition(position)) {
-            return ITEM_TYPE_BOTTOM;
         }
         return super.getItemViewType(position);
     }
@@ -55,17 +48,14 @@ public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAnd
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_LOAD)
             return new RecyclerView.ViewHolder(mLoadView) {};
-        if (viewType == ITEM_TYPE_BOTTOM)
-            return new RecyclerView.ViewHolder(mBottomView) {};
         return super.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (isLoadPosition(position) || isBottomPosition(position)) return;
+        if (isLoadPosition(position)) return;
         super.onBindViewHolder(holder, position);
     }
-
 
     /**解决GridLayoutManager问题*/
     @Override
@@ -78,7 +68,7 @@ public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAnd
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position) || isBottomPosition(position))
+                    if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position))
                         return gridLayoutManager.getSpanCount();
                     return 1;
                 }
@@ -92,7 +82,7 @@ public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAnd
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         mRealAdapter.onViewAttachedToWindow(holder);
         int position = holder.getLayoutPosition();
-        if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position) || isBottomPosition(position)) {
+        if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position)) {
             ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
             if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) lp;
@@ -104,20 +94,11 @@ public class PullToLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAnd
 
     private boolean isLoadPosition(int position) {
         if (mLoadView == null) return false;
-        return position == getItemCount()-2;
-    }
-
-    private boolean isBottomPosition(int position) {
-        if (mBottomView == null) return false;
         return position == getItemCount()-1;
     }
 
     public void setLoadView(View loadView) {
         this.mLoadView = loadView;
-    }
-
-    public void setBottomView(View bottomView) {
-        this.mBottomView = bottomView;
     }
 
 }

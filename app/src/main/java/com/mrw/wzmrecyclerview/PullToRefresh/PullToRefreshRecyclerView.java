@@ -81,6 +81,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
 //            该view的高度不能为0，否则将无法判断是否已滑动到顶部
             topView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 1));
         }
+
     }
 
     /**

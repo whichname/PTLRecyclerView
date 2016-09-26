@@ -29,6 +29,10 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
         this.mRealAdapter = mRealAdapter;
     }
 
+    public T getRealAdapter() {
+        return mRealAdapter;
+    }
+
     @Override
     public int getItemCount() {
         return getRealItemCount()+getHeadersCount()+getFootersCount();

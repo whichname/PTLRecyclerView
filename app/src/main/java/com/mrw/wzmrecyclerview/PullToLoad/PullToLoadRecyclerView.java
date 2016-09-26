@@ -53,9 +53,8 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     private float mFirstY = 0;
     private boolean mPulling = false;
 
-    //    是否可以下拉刷新
+    //    是否可以上拉加载
     private boolean isAbleToLoad = true;
-
 
     //    回弹动画
     private ValueAnimator valueAnimator;
@@ -67,6 +66,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
 
         }
     };
+
 
     private PullToLoadAdapter mAdapter;
     private Adapter mRealAdapter;
@@ -273,7 +273,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     }
 
     /**
-     * 设置自定义的刷新头部
+     * 设置自定义的加载尾部
      */
     public View setLoadView(int res) {
         mLoadView = LayoutInflater.from(getContext()).inflate(res, this, false);
