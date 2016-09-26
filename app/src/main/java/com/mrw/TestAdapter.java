@@ -35,12 +35,16 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
 
     @Override
     public void onBindViewHolder(TestHolder holder, int position) {
+        if (position % 2 == 0 ) {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.imageView.getLayoutParams();
+            layoutParams.height = 100;
+            holder.imageView.setLayoutParams(layoutParams);
+        } else {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.imageView.getLayoutParams();
+            layoutParams.height = 700;
+            holder.imageView.setLayoutParams(layoutParams);
+        }
         Glide.with(mContext).load(imgs.get(position)).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.colorPrimary).into(holder.imageView);
-//        if (position % 2 == 0 ) {
-//            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.imageView.getLayoutParams();
-//            layoutParams.height = 100;
-//            holder.imageView.setLayoutParams(layoutParams);
-//        }
     }
 
     @Override

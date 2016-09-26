@@ -93,7 +93,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             mItemDecorationHelper = new GridItemDecorationHelper();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-
+            mItemDecorationHelper = new StaggeredItemDecorationHelper();
         } else if (layoutManager instanceof LinearLayoutManager) {
             mItemDecorationHelper = new LinearItemDecorationHelper();
         }
@@ -113,7 +113,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager instanceof GridLayoutManager) {
             mItemDecorationHelper = new GridItemDecorationHelper();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-
+            mItemDecorationHelper = new StaggeredItemDecorationHelper();
         } else if (layoutManager instanceof LinearLayoutManager) {
             mItemDecorationHelper = new LinearItemDecorationHelper();
         }

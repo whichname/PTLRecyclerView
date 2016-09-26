@@ -34,8 +34,8 @@ public class LinearItemDecorationHelper extends BaseItemDecorationHelper {
 
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
-//            若是刷新头部 || 加载尾部 || 最后一项，不绘制
-            if (isRefreshView(parent,child) || isLoadView(parent,child) ||isLastItem(parent,child))
+//            若是头部 || 尾部 || 最后一项，不绘制
+            if (isHeaderView(parent,child) || isFooterView(parent,child) ||isLastItem(parent,child))
                 continue;
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
@@ -56,8 +56,8 @@ public class LinearItemDecorationHelper extends BaseItemDecorationHelper {
 
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
-//            若是刷新头部 || 加载尾部 || 最后一项，不绘制
-            if (isRefreshView(parent,child) || isLoadView(parent,child) ||isLastItem(parent,child))
+//            若是头部 || 尾部 || 最后一项，不绘制
+            if (isHeaderView(parent,child) || isFooterView(parent,child) ||isLastItem(parent,child))
                 continue;
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
@@ -70,8 +70,8 @@ public class LinearItemDecorationHelper extends BaseItemDecorationHelper {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, int height, int width) {
-//        若是刷新头部 || 加载尾部 || 最后一项，不偏移
-        if (isRefreshView(parent,view) || isLoadView(parent,view) ||isLastItem(parent,view))
+//        若是头部 || 尾部 || 最后一项，不偏移
+        if (isHeaderView(parent,view) || isFooterView(parent,view) ||isLastItem(parent,view))
             return;
 //        若是水平布局
         if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayoutManager.HORIZONTAL)
@@ -87,7 +87,7 @@ public class LinearItemDecorationHelper extends BaseItemDecorationHelper {
 //        若是头尾部适配器
         if (parent.getAdapter() instanceof HeaderAndFooterAdapter) {
             HeaderAndFooterAdapter adapter = (HeaderAndFooterAdapter) parent.getAdapter();
-            return position >= adapter.getHeadersCount() + adapter.getRealItemCount()+adapter.getFootersCount()-1;
+            return position >= adapter.getHeadersCount() + adapter.getRealItemCount()-1;
         }
         return position >= parent.getAdapter().getItemCount() - 1;
     }
