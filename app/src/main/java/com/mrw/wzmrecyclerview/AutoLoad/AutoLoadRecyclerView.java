@@ -1,6 +1,7 @@
 package com.mrw.wzmrecyclerview.AutoLoad;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,10 +68,10 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         //        若数据不满一屏 || 没有更多
         if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
             mAdapter.setLoadView(null);
-            mAdapter.notifyDataSetChanged();
+            this.invalidate();
         } else {
             mAdapter.setLoadView(mLoadView);
-            mAdapter.notifyDataSetChanged();
+            this.invalidate();
         }
     }
 
@@ -127,13 +128,10 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         //        若数据不满一屏 || 没有更多
         if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
             mAdapter.setLoadView(null);
-            mAdapter.notifyDataSetChanged();
         } else {
             mAdapter.setLoadView(mLoadView);
-            mAdapter.notifyDataSetChanged();
         }
     }
-
 
 
     /**

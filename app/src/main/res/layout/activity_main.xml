@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     >
 
-    <com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView
+    <com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

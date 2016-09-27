@@ -14,7 +14,7 @@ import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
  */
 public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFooterAdapter {
 
-    private static final int ITEM_TYPE_LOAD = 30000000;
+    private static int ITEM_TYPE_LOAD = 30000000;
 
     private View mLoadView;
 
@@ -98,7 +98,9 @@ public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFo
     }
 
     public void setLoadView(View loadView) {
+        ITEM_TYPE_LOAD++;
         this.mLoadView = loadView;
+        notifyDataSetChanged();
     }
 
 }
