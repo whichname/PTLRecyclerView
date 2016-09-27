@@ -5,9 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadAdapter;
-import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
-import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadAdapter;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
 /**

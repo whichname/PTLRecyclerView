@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadAdapter;
 import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;

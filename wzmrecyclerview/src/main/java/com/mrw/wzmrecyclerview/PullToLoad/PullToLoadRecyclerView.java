@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
@@ -103,7 +104,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         super.onLayout(changed, l, t, r, b);
         if (loadView != null && mLoadViewHeight == 0) {
             mLoadViewHeight = loadView.getMeasuredHeight();
-            MarginLayoutParams marginLayoutParams = (MarginLayoutParams) getLayoutParams();
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
             marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin - mLoadViewHeight - 1);
             setLayoutParams(marginLayoutParams);
 //            高度测量之后将其从头部中去掉

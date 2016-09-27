@@ -1,20 +1,17 @@
-package com.mrw;
+package com.mrw.wzmrecyclerview_sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
-import com.mrw.wzmrecyclerview.R;
+import com.mrw.wzmrecyclerview_sample.R;
 import com.mrw.wzmrecyclerview.SimpleAdapter.SimpleAdapter;
 import com.mrw.wzmrecyclerview.SimpleAdapter.ViewHolder;
 
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         rcv.setAdapter(new SimpleAdapter<String>(this,imgs,R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).into((ImageView) holder.getConvertView());
+//                Glide.with(mContext).load(data).into((ImageView) holder.getConvertView());
             }
         });
         rcv.setOnRefreshListener(new OnRefreshListener() {

@@ -92,7 +92,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
         super.onLayout(changed, l, t, r, b);
         if (mRefreshView != null && mRefreshViewHeight == 0) {
             mRefreshViewHeight = mRefreshView.getMeasuredHeight();
-            MarginLayoutParams marginLayoutParams = (MarginLayoutParams) getLayoutParams();
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
             marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin-mRefreshViewHeight-1, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin);
             setLayoutParams(marginLayoutParams);
         }

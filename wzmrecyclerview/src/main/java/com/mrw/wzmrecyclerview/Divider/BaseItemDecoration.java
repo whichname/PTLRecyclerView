@@ -12,9 +12,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
-import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterRecyclerView;
-
 /**
  * Created by Administrator on 2016/9/25.
  */
