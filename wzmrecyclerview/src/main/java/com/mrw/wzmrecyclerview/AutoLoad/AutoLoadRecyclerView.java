@@ -32,12 +32,8 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     private View mLoadView;
 
     //    加载监听
-    private OnLoadListener mOnLoadListener = new OnLoadListener() {
-        @Override
-        public void onStartLoading() {
+    private OnLoadListener mOnLoadListener;
 
-        }
-    };
 
     private AutoLoadAdapter mAdapter;
     private Adapter mRealAdapter;
@@ -46,6 +42,10 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     private boolean isLoadingData = false;
 //    是否还有更多
     private boolean hasMore = true;
+
+
+    private void init(Context context) {
+    }
 
     @Override
     public void setAdapter(Adapter adapter) {
@@ -116,8 +116,6 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
      * 结束刷新
      */
     public void completeLoad() {
-        if (mOnLoadListener != null)
-            mOnLoadListener.onStopLoad();
         isLoadingData = false;
     }
 

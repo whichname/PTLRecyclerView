@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="graylight">#ddd</color>
+    <color name="gray">#aaa</color>
+    <color name="graydark">#777</color>
+    <color name="graydarker">#555</color>
+    <color name="black">#333</color>
+
+</resources>

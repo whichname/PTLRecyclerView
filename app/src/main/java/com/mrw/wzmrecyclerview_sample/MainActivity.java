@@ -2,11 +2,14 @@ package com.mrw.wzmrecyclerview_sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
@@ -66,28 +69,25 @@ public class MainActivity extends AppCompatActivity {
         imgs.add("http://seopic.699pic.com/photo/50007/1912.jpg_wh1200.jpg");
 
         testAdapter = new TestAdapter(imgs,this);
-//        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        rcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
 //        rcv.setLayoutManager(new GridLayoutManager(this,2));
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        rcv.setRefreshView(R.layout.layout_header_ptr_recyclerview);
-        rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
+//        rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//        rcv.setLoadView(R.layout.layout_header_ptr_recyclerview);
 //        rcv.setEmptyView(flEmpty);
 //        rcv.setAdapter(testAdapter);
         rcv.setAdapter(new SimpleAdapter<String>(this,imgs,R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-//                Glide.with(mContext).load(data).into((ImageView) holder.getConvertView());
+                Glide.with(mContext).load(data).into((ImageView) holder.getConvertView());
             }
         });
         rcv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onStartRefreshing() {
-//                imgs.addAll(0,imgs);
-//                testAdapter.notifyDataSetChanged();
-//                rcv.completeRefresh();
             }
         });
         rcv.setOnLoadListener(new OnLoadListener() {
+
             @Override
             public void onStartLoading() {
 //                imgs.addAll(imgs);
