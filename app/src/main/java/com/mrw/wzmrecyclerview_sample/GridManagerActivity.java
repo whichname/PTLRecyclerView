@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,12 +49,12 @@ public class GridManagerActivity extends AppCompatActivity {
 
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
 
-        rcv.setLayoutManager(new GridLayoutManager(this,2));
+        rcv.setLayoutManager(new GridLayoutManager(this, 2));
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into((ImageView) holder.getConvertView());
+                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into(holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听
@@ -135,7 +136,7 @@ public class GridManagerActivity extends AppCompatActivity {
 
     private View getFooterView() {
         View view = getLayoutInflater().inflate(R.layout.item_footer,rcv,false);
-        ((TextView) view.findViewById(R.id.tv)).setText("Header"+footerViews.size());
+        ((TextView) view.findViewById(R.id.tv)).setText("Footer"+footerViews.size());
         footerViews.add(view);
         return view;
     }

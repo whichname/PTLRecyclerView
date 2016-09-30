@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
 import com.mrw.wzmrecyclerview.SimpleAdapter.SimpleAdapter;
 import com.mrw.wzmrecyclerview.SimpleAdapter.ViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 public class StaggredGridManagerActivity extends AppCompatActivity {
 
     public static void actionStart(Context context) {
-        Intent intent = new Intent(context,StaggredGridManagerActivity.class);
+        Intent intent = new Intent(context, StaggredGridManagerActivity.class);
         context.startActivity(intent);
     }
 
@@ -48,12 +50,21 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
 
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
 
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
+
+            @Override
+            public void onBindViewHolder(ViewHolder holder, int position) {
+                ViewGroup.LayoutParams layoutParams = holder.getConvertView().getLayoutParams();
+                layoutParams.height = (int) ((position + 1) / 5.0 * 500);
+                holder.getConvertView().setLayoutParams(layoutParams);
+                super.onBindViewHolder(holder, position);
+            }
+
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into((ImageView) holder.getConvertView());
+                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into(holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听
@@ -84,7 +95,7 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
             }
         });
 //        设置分割线
-        rcv.addItemDecoration(new BaseItemDecoration(this,R.color.colorAccent));
+        rcv.addItemDecoration(new BaseItemDecoration(this, R.color.colorAccent));
 
         rcv.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -108,15 +119,15 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
                 rcv.addHeaderView(getHeaderView());
                 break;
             case R.id.btn_remove_header:
-                if (headerViews.size()==0) return;
-                rcv.removeHeaderView(headerViews.get(headerViews.size()-1));
-                headerViews.remove(headerViews.size()-1);
+                if (headerViews.size() == 0) return;
+                rcv.removeHeaderView(headerViews.get(headerViews.size() - 1));
+                headerViews.remove(headerViews.size() - 1);
                 break;
             case R.id.btn_add_footer:
                 rcv.addFooterView(getFooterView());
                 break;
             case R.id.btn_remove_footer:
-                if (footerViews.size()==0) return;
+                if (footerViews.size() == 0) return;
                 rcv.removeFooterView(footerViews.get(footerViews.size() - 1));
                 footerViews.remove(footerViews.size() - 1);
                 break;
@@ -127,15 +138,15 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
     private ArrayList<View> footerViews = new ArrayList<>();
 
     private View getHeaderView() {
-        View view = getLayoutInflater().inflate(R.layout.item_header,rcv,false);
-        ((TextView) view.findViewById(R.id.tv)).setText("Header"+headerViews.size());
+        View view = getLayoutInflater().inflate(R.layout.item_header, rcv, false);
+        ((TextView) view.findViewById(R.id.tv)).setText("Header" + headerViews.size());
         headerViews.add(view);
         return view;
     }
 
     private View getFooterView() {
-        View view = getLayoutInflater().inflate(R.layout.item_footer,rcv,false);
-        ((TextView) view.findViewById(R.id.tv)).setText("Header"+footerViews.size());
+        View view = getLayoutInflater().inflate(R.layout.item_footer, rcv, false);
+        ((TextView) view.findViewById(R.id.tv)).setText("Footer" + footerViews.size());
         footerViews.add(view);
         return view;
     }

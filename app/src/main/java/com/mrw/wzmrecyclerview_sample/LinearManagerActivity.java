@@ -53,7 +53,7 @@ public class LinearManagerActivity extends AppCompatActivity {
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into((ImageView) holder.getConvertView());
+                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into(holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听
@@ -135,7 +135,7 @@ public class LinearManagerActivity extends AppCompatActivity {
 
     private View getFooterView() {
         View view = getLayoutInflater().inflate(R.layout.item_footer,rcv,false);
-        ((TextView) view.findViewById(R.id.tv)).setText("Header"+footerViews.size());
+        ((TextView) view.findViewById(R.id.tv)).setText("Footer"+footerViews.size());
         footerViews.add(view);
         return view;
     }
