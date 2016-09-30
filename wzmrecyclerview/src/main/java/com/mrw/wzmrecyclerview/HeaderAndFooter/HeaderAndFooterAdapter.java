@@ -23,6 +23,9 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
 
     protected Context mContext;
 
+    protected OnItemClickListener mOnItemClickListener;
+    protected OnItemLongClickListener mOnItemLongClickListener;
+
     public HeaderAndFooterAdapter(Context mContext, T mRealAdapter) {
         super();
         this.mContext = mContext;
@@ -71,7 +74,24 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
         if (isHeaderPosition(position) || isFooterPosition(position)) {
 
         } else {
-            mRealAdapter.onBindViewHolder(holder, position - getHeadersCount());
+            final int realPosition = position - getHeadersCount();
+            mRealAdapter.onBindViewHolder(holder, realPosition);
+            if (mOnItemClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnItemClickListener.OnItemClick(realPosition);
+                    }
+                });
+            }
+            if (mOnItemLongClickListener != null) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        return mOnItemLongClickListener.onItemLongClick(realPosition);
+                    }
+                });
+            }
         }
     }
 
@@ -165,5 +185,12 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
         return mFooterViews.size();
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.mOnItemLongClickListener = onItemLongClickListener;
+    }
 
 }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     private boolean mPulling = false;
 
     //    是否可以上拉加载
-    private boolean isAbleToLoad = true;
+    private boolean mLoadMoreEnable = true;
 
     //    回弹动画
     private ValueAnimator valueAnimator;
@@ -134,7 +133,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 //        若不允许拖动
-        if (!isAbleToLoad) return super.onTouchEvent(e);
+        if (!mLoadMoreEnable) return super.onTouchEvent(e);
 //        若加载尾部为空，不处理
         if (mLoadView == null)
             return super.onTouchEvent(e);
@@ -281,6 +280,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mLoadFooterCreator.onStopLoad();
         mState = STATE_DEFAULT;
         replyPull();
+        getAdapter().notifyDataSetChanged();
     }
 
     /**
@@ -301,6 +301,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter.setLoadView(mLoadView);
             mAdapter.setBottomView(bottomView);
         }
+        getAdapter().notifyDataSetChanged();
     }
 
     /**获得加载中View和底部填充view的个数，用于绘制分割线*/
@@ -310,8 +311,8 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         return 0;
     }
 
-    public void setLoadEnable(boolean isAbleToLoad) {
-        this.isAbleToLoad = isAbleToLoad;
+    public void setLoadEnable(boolean loadMoreEnable) {
+        this.mLoadMoreEnable = loadMoreEnable;
     }
 
     /**获得真正的adapter*/

@@ -1,106 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
-    <com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView
-        android:id="@+id/rcv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#eee"
-        />
-
-    <FrameLayout
-        android:id="@+id/fl_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#333"
-            android:layout_gravity="center"
-            android:text="没有数据"
-            />
-
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_horizontal"
-        >
-
     <Button
-        android:id="@+id/btn_header"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_linear_manager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="addHeader"
+        android:text="线性  LinearLayoutManager"
         android:gravity="center"
         android:onClick="onClick"
         android:layout_marginBottom="5dp"
         />
 
     <Button
-        android:id="@+id/btn_footer"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_grid_manager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="addFooter"
+        android:text="表格  GridLayoutManager"
         android:gravity="center"
         android:onClick="onClick"
         android:layout_marginBottom="5dp"
         />
 
-        <Button
-            android:id="@+id/btn_remove_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="removeHeader"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:layout_marginBottom="5dp"
-            />
+    <Button
+        android:id="@+id/btn_staggred_grid_manager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="瀑布流  StaggredGridLayoutManager"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:layout_marginBottom="5dp"
+        />
 
-        <Button
-            android:id="@+id/btn_remove_footer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="removeFooter"
-            android:gravity="center"
-            android:onClick="onClick"
-            />
+    <Button
+        android:id="@+id/btn_auto_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自动加载 autoload"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:layout_marginBottom="5dp"
+        />
 
-        <Button
-            android:id="@+id/btn_finish_refreshing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="finishRefreshing"
-            android:gravity="center"
-            android:onClick="onClick"
-            />
-
-
-        <Button
-            android:id="@+id/btn_finish_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="finishLoading"
-            android:gravity="center"
-            android:onClick="onClick"
-            />
-
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

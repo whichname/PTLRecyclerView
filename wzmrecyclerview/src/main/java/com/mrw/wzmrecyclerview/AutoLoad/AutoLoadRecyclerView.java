@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 
+import com.mrw.wzmrecyclerview.DefaultHeaderAndFooter.DefaultAutoLoadFooterCreator;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
@@ -19,69 +19,56 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
 
     public AutoLoadRecyclerView(Context context) {
         super(context);
+        init(context);
     }
 
     public AutoLoadRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public AutoLoadRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context);
     }
 
     private View mLoadView;
-
-    //    加载监听
-    private OnLoadListener mOnLoadListener;
-
-
     private AutoLoadAdapter mAdapter;
     private Adapter mRealAdapter;
 
-//    是否正在加载
-    private boolean isLoadingData = false;
-//    是否还有更多
-    private boolean hasMore = true;
+    private boolean mIsLoading = false;
+    private boolean mLoadMoreEnable = true;
+    private boolean mNoMore = false;
 
+    private AutoLoadFooterCreator mAutoLoadFooterCreator;
+    private OnLoadListener mOnLoadListener;
 
     private void init(Context context) {
+        mAutoLoadFooterCreator = new DefaultAutoLoadFooterCreator();
+        mLoadView = mAutoLoadFooterCreator.getLoadView(context,this);
     }
+
 
     @Override
     public void setAdapter(Adapter adapter) {
         mRealAdapter = adapter;
         if (adapter instanceof AutoLoadAdapter) {
             mAdapter = (AutoLoadAdapter) adapter;
-        } else {
-            mAdapter = new AutoLoadAdapter(getContext(), adapter);
+        } else{
+            mAdapter = new AutoLoadAdapter(getContext(),adapter);
         }
         super.setAdapter(mAdapter);
+
         if (mLoadView != null) {
             mAdapter.setLoadView(mLoadView);
         }
-    }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        //        若数据不满一屏 || 没有更多
-        if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
-            mAdapter.setLoadView(null);
-            this.invalidate();
-        } else {
-            mAdapter.setLoadView(mLoadView);
-            this.invalidate();
-        }
     }
 
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-        if (state == RecyclerView.SCROLL_STATE_IDLE
-                && mOnLoadListener != null
-                && !isLoadingData
-                && mLoadView != null
-                && hasMore) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE  && !mIsLoading && mLoadMoreEnable) {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
@@ -94,59 +81,44 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
             if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 2
-                    && layoutManager.getItemCount() > layoutManager.getChildCount()) {
-                isLoadingData = true;
-                mOnLoadListener.onStartLoading();
+                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && layoutManager.getItemCount() > layoutManager.getChildCount() && !mNoMore ) {
+                mIsLoading = true;
+                if (mOnLoadListener != null)
+                    mOnLoadListener.onStartLoading();
             }
         }
     }
 
-    private int findMax(int[] v) {
-        int max = v[0];
-        for (int a : v) {
-            if (a > max)
-                max = a;
+    private int findMax(int[] lastPositions) {
+        int max = lastPositions[0];
+        for (int value : lastPositions) {
+            if (value > max) {
+                max = value;
+            }
         }
         return max;
     }
 
-
-    /**
-     * 结束刷新
-     */
+    /**完成加载*/
     public void completeLoad() {
-        isLoadingData = false;
+        mIsLoading = false;
+        getAdapter().notifyDataSetChanged();
     }
 
-    /**设置没有更多*/
-    public void hasNoMore(boolean hasMore) {
-        this.hasMore = hasMore;
-        //        若数据不满一屏 || 没有更多
-        if (getChildCount() >= getAdapter().getItemCount() || !hasMore) {
+    /**没有更多*/
+    public void setNoMore(boolean noMore) {
+        mIsLoading = false;
+        mNoMore = noMore;
+        if (mNoMore)
             mAdapter.setLoadView(null);
-        } else {
+        else if (mLoadView != null)
             mAdapter.setLoadView(mLoadView);
-        }
+        getAdapter().notifyDataSetChanged();
     }
 
-
-    /**
-     * 设置监听
-     */
+    /**设置加载监听*/
     public void setOnLoadListener(OnLoadListener onLoadListener) {
         this.mOnLoadListener = onLoadListener;
-    }
-
-    /**
-     * 设置自定义的加载尾部
-     */
-    public View setLoadView(int res) {
-        mLoadView = LayoutInflater.from(getContext()).inflate(res, this, false);
-        if (mAdapter != null) {
-            mAdapter.setLoadView(mLoadView);
-        }
-        return mLoadView;
     }
 
     /**获得加载中View和底部填充view的个数，用于绘制分割线*/

@@ -84,6 +84,23 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         }
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        if (null == mAdapter) {
+            throw new IllegalStateException("u must set a adapter first !");
+        } else {
+            mAdapter.setOnItemClickListener(onItemClickListener);
+        }
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        if (null == mAdapter) {
+            throw new IllegalStateException("u must set a adapter first !");
+        } else {
+            mAdapter.setOnItemLongClickListener(onItemLongClickListener);
+        }
+    }
+
+
     /**获得真正的adapter*/
     public Adapter getRealAdapter() {
         return mRealAdapter;

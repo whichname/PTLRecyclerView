@@ -14,22 +14,22 @@ public  abstract class LoadFooterCreator {
      * @param distance 距离
      * @return 是否继续上拉
      */
-    public abstract boolean onStartPull(float distance,int lastState);
+    protected abstract boolean onStartPull(float distance,int lastState);
 
     /**
      * 松手加载
      * @param distance 距离
      * @return 是否继续上拉
      */
-    public abstract boolean onReleaseToLoad(float distance,int lastState);
+    protected abstract boolean onReleaseToLoad(float distance,int lastState);
 
     /**开始加载*/
-    public abstract void onStartLoading();
+    protected abstract void onStartLoading();
 
     /**加载结束*/
-    public abstract void onStopLoad();
+    protected abstract void onStopLoad();
 
 
-    public abstract View getLoadView(Context context, RecyclerView recyclerView);
+    protected abstract View getLoadView(Context context, RecyclerView recyclerView);
 
 }

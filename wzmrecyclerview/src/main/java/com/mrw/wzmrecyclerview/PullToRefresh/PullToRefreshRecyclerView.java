@@ -57,7 +57,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
     private boolean mPulling = false;
 
     //    是否可以下拉刷新
-    private boolean isAbleToRefresh = true;
+    private boolean mRefreshEnable = true;
 
     //    回弹动画
     private ValueAnimator valueAnimator;
@@ -107,7 +107,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 //        若是不可以下拉
-        if (!isAbleToRefresh) return super.onTouchEvent(e);
+        if (!mRefreshEnable) return super.onTouchEvent(e);
 //        若刷新头部为空，不处理
         if (mRefreshView == null)
             return super.onTouchEvent(e);
@@ -244,6 +244,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             mRefreshHeaderCreator.onStopRefresh();
         mState = STATE_DEFAULT;
         replyPull();
+        getAdapter().notifyDataSetChanged();
     }
 
     /**设置监听*/
@@ -260,6 +261,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             addHeaderView(topView);
             addHeaderView(mRefreshView);
         }
+        getAdapter().notifyDataSetChanged();
     }
 
     /**获得刷新View和顶部填充view的个数，用于绘制分割线*/
@@ -270,8 +272,8 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
     }
 
     /**设置是否可以下拉*/
-    public void setRefreshEnable(boolean isAbleToRefresh) {
-        this.isAbleToRefresh = isAbleToRefresh;
+    public void setRefreshEnable(boolean refreshEnable) {
+        this.mRefreshEnable = refreshEnable;
     }
 
     /**设置下拉阻尼系数*/

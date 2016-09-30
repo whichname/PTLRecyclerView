@@ -2,7 +2,11 @@ package com.mrw.wzmrecyclerview.SimpleAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
+
+import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
+import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
 
 import java.util.ArrayList;
 

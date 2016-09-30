@@ -20,6 +20,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".LinearManagerActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".GridManagerActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".StaggredGridManagerActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".AutoLoadActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
+
+
 
 </manifest>
