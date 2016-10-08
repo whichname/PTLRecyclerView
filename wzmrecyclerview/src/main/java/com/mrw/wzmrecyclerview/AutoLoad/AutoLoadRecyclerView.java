@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.mrw.wzmrecyclerview.DefaultHeaderAndFooter.DefaultAutoLoadFooterCreator;
+import com.mrw.wzmrecyclerview.PullToLoad.LoadFooterCreator;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
@@ -134,5 +135,14 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         return mRealAdapter;
     }
 
+    /**
+     * 设置自定义的加载尾部
+     */
+    public void setAutoLoadViewCreator(AutoLoadFooterCreator autoLoadFooterCreator) {
+        this.mAutoLoadFooterCreator = autoLoadFooterCreator;
+        mLoadView = autoLoadFooterCreator.getLoadView(getContext(),this);
+        mAdapter.setLoadView(mLoadView);
+        getAdapter().notifyDataSetChanged();
+    }
 
 }
