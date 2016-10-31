@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
@@ -54,7 +50,7 @@ public class GridManagerActivity extends AppCompatActivity {
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into(holder.<ImageView>getView(R.id.iv));
+                ImgDataUtil.loadImage(mContext, data, holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听
@@ -74,7 +70,7 @@ public class GridManagerActivity extends AppCompatActivity {
 //        设置加载监听
         rcv.setOnLoadListener(new OnLoadListener() {
             @Override
-            public void onStartLoading() {
+            public void onStartLoading(int skip) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
@@ -23,7 +21,6 @@ import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
 import com.mrw.wzmrecyclerview.SimpleAdapter.SimpleAdapter;
 import com.mrw.wzmrecyclerview.SimpleAdapter.ViewHolder;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,6 +38,8 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
     private ArrayList<String> imgs;
     private Handler handler;
 
+    private ArrayList<Integer> mItemHeights = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,20 +50,27 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
 
         rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+        for (int i = 0; i < 10;i++) {
+            mItemHeights.add((int) ((i+1)/5.0*500));
+        }
+
+
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
 
             @Override
             public void onBindViewHolder(ViewHolder holder, int position) {
                 ViewGroup.LayoutParams layoutParams = holder.getConvertView().getLayoutParams();
-                layoutParams.height = (int) ((position + 1) / 5.0 * 500);
+                layoutParams.height = mItemHeights.get(position%10);
                 holder.getConvertView().setLayoutParams(layoutParams);
                 super.onBindViewHolder(holder, position);
             }
 
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into(holder.<ImageView>getView(R.id.iv));
+                holder.<ImageView>getView(R.id.iv).setImageDrawable(null);
+                ImgDataUtil.loadImage(mContext,data,holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听
@@ -84,7 +90,7 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
 //        设置加载监听
         rcv.setOnLoadListener(new OnLoadListener() {
             @Override
-            public void onStartLoading() {
+            public void onStartLoading(int skip) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

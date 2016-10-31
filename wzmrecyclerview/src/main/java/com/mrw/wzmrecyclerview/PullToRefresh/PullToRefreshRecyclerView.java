@@ -7,6 +7,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,7 +245,9 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             mRefreshHeaderCreator.onStopRefresh();
         mState = STATE_DEFAULT;
         replyPull();
-        getAdapter().notifyDataSetChanged();
+        mRealAdapter.notifyDataSetChanged();
+
+        setLoadingViewGone();
     }
 
     /**设置监听*/
@@ -261,7 +264,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             addHeaderView(topView);
             addHeaderView(mRefreshView);
         }
-        getAdapter().notifyDataSetChanged();
+        mRealAdapter.notifyDataSetChanged();
     }
 
     /**获得刷新View和顶部填充view的个数，用于绘制分割线*/

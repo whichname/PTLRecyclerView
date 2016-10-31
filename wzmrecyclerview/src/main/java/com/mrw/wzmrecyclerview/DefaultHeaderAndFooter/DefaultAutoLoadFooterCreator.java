@@ -32,6 +32,11 @@ public class DefaultAutoLoadFooterCreator extends AutoLoadFooterCreator {
         return mAutoLoadFooter;
     }
 
+    @Override
+    protected View getNoMoreView(Context context, RecyclerView recyclerView) {
+        return null;
+    }
+
     private void startLoadingAnim() {
         if (ivAnim != null) {
             ivAnim.cancel();

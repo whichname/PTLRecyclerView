@@ -3,8 +3,12 @@ package com.mrw.wzmrecyclerview.HeaderAndFooter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
+import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadAdapter;
+import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
+import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadAdapter;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
 /**
@@ -27,6 +31,8 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
     protected Adapter mRealAdapter;
 
     private View mEmptyView;
+//    第一次加载时，如果有覆盖整块的加载中，第一次完成后就需要隐藏
+    private View mLoadingView;
 //   当有header和footer的时候，是否显示emptyview
     private boolean showEmptyViewHasHF = false;
     private final DataObserver mDataObserver = new DataObserver();
@@ -34,6 +40,11 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         mRealAdapter = adapter;
+        if (adapter instanceof AutoLoadAdapter)
+            mRealAdapter = ((AutoLoadAdapter) adapter).getRealAdapter();
+        if (adapter instanceof PullToLoadAdapter)
+            mRealAdapter = ((PullToLoadAdapter) adapter).getRealAdapter();
+
         if (adapter instanceof HeaderAndFooterAdapter) {
             mAdapter = (HeaderAndFooterAdapter) adapter;
         }
@@ -41,7 +52,7 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
             mAdapter = new HeaderAndFooterAdapter(getContext(),adapter);
         }
         super.setAdapter(mAdapter);
-        mAdapter.registerAdapterDataObserver(mDataObserver);
+        mRealAdapter.registerAdapterDataObserver(mDataObserver);
         mDataObserver.onChanged();
     }
 
@@ -119,15 +130,26 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         mDataObserver.onChanged();
     }
 
+    public void setLoadingView(View loadingView) {
+        this.mLoadingView = loadingView;
+    }
+
+    public void setLoadingViewGone() {
+        if (mLoadingView != null)
+            mLoadingView.setVisibility(GONE);
+    }
+
     /**数据监听*/
     private class DataObserver extends AdapterDataObserver{
 
         @Override
         public void onChanged() {
-            if (getAdapter() == null) return;
-            Adapter realAdapter = ((HeaderAndFooterAdapter)getAdapter()).getRealAdapter();
-            realAdapter.notifyDataSetChanged();
-            if (mEmptyView == null) return;
+            if (mAdapter == null) return;
+            if (mRealAdapter != mAdapter)
+                mAdapter.notifyDataSetChanged();
+            if (mEmptyView == null) {
+                return;
+            }
             int itemCount = 0;
             if (!showEmptyViewHasHF) {
                 Adapter adapter = getAdapter();
@@ -137,11 +159,15 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
                 if (HeaderAndFooterRecyclerView.this instanceof PullToRefreshRecyclerView)
                     itemCount -= ((PullToRefreshRecyclerView) HeaderAndFooterRecyclerView.this).getRefreshViewCount();
             }
-            itemCount += realAdapter.getItemCount();
+            itemCount += mRealAdapter.getItemCount();
             if (itemCount == 0) {
                 mEmptyView.setVisibility(VISIBLE);
+                if (getVisibility() != INVISIBLE)
+                     setVisibility(INVISIBLE);
             } else {
                 mEmptyView.setVisibility(GONE);
+                if (getVisibility() != VISIBLE)
+                    setVisibility(VISIBLE);
             }
         }
 

@@ -6,9 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.mrw.wzmrecyclerview.DefaultHeaderAndFooter.DefaultAutoLoadFooterCreator;
+import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
 import com.mrw.wzmrecyclerview.PullToLoad.LoadFooterCreator;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
@@ -40,6 +42,7 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     private boolean mIsLoading = false;
     private boolean mLoadMoreEnable = true;
     private boolean mNoMore = false;
+    private View mNoMoreView;
 
     private AutoLoadFooterCreator mAutoLoadFooterCreator;
     private OnLoadListener mOnLoadListener;
@@ -47,6 +50,7 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     private void init(Context context) {
         mAutoLoadFooterCreator = new DefaultAutoLoadFooterCreator();
         mLoadView = mAutoLoadFooterCreator.getLoadView(context,this);
+        mNoMoreView = mAutoLoadFooterCreator.getNoMoreView(context,this);
     }
 
 
@@ -59,17 +63,15 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter = new AutoLoadAdapter(getContext(),adapter);
         }
         super.setAdapter(mAdapter);
-
         if (mLoadView != null) {
             mAdapter.setLoadView(mLoadView);
         }
-
     }
 
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-        if (state == RecyclerView.SCROLL_STATE_IDLE  && !mIsLoading && mLoadMoreEnable) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE  && !mIsLoading && mLoadMoreEnable && mLoadView != null) {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
@@ -85,7 +87,7 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
                     && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && layoutManager.getItemCount() > layoutManager.getChildCount() && !mNoMore ) {
                 mIsLoading = true;
                 if (mOnLoadListener != null)
-                    mOnLoadListener.onStartLoading();
+                    mOnLoadListener.onStartLoading(mRealAdapter.getItemCount());
             }
         }
     }
@@ -103,18 +105,23 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     /**完成加载*/
     public void completeLoad() {
         mIsLoading = false;
-        getAdapter().notifyDataSetChanged();
+        setLoadingViewGone();
+        mRealAdapter.notifyDataSetChanged();
     }
 
     /**没有更多*/
     public void setNoMore(boolean noMore) {
         mIsLoading = false;
         mNoMore = noMore;
-        if (mNoMore)
-            mAdapter.setLoadView(null);
+        if (mNoMore) {
+            if (mNoMoreView != null)
+                mAdapter.setLoadView(mNoMoreView);
+            else
+                mAdapter.setLoadView(null);
+        }
         else if (mLoadView != null)
             mAdapter.setLoadView(mLoadView);
-        getAdapter().notifyDataSetChanged();
+        mRealAdapter.notifyDataSetChanged();
     }
 
     /**设置加载监听*/
@@ -139,10 +146,24 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
      * 设置自定义的加载尾部
      */
     public void setAutoLoadViewCreator(AutoLoadFooterCreator autoLoadFooterCreator) {
+        if (autoLoadFooterCreator == null) {
+            this.mAutoLoadFooterCreator = null;
+            mLoadView = null;
+            mNoMoreView = null;
+            mAdapter.setLoadView(mLoadView);
+            mRealAdapter.notifyDataSetChanged();
+            return;
+        }
         this.mAutoLoadFooterCreator = autoLoadFooterCreator;
         mLoadView = autoLoadFooterCreator.getLoadView(getContext(),this);
         mAdapter.setLoadView(mLoadView);
-        getAdapter().notifyDataSetChanged();
+        mNoMoreView = autoLoadFooterCreator.getNoMoreView(getContext(),this);
+        mRealAdapter.notifyDataSetChanged();
     }
+
+    public void setIsLoading(boolean isLoading) {
+        mIsLoading = isLoading;
+    }
+
 
 }

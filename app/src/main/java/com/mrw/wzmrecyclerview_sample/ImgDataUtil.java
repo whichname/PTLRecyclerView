@@ -1,5 +1,11 @@
 package com.mrw.wzmrecyclerview_sample;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +26,10 @@ public class ImgDataUtil {
         imgDatas.add("http://seopic.699pic.com/photo/50004/2199.jpg_wh1200.jpg");
         imgDatas.add("http://seopic.699pic.com/photo/50000/2811.jpg_wh1200.jpg");
         return imgDatas;
+    }
+
+    public static void loadImage(Context context,String url,ImageView imageView) {
+        Glide.with(context).load(url).placeholder(R.color.gray).into(imageView);
     }
 
 }

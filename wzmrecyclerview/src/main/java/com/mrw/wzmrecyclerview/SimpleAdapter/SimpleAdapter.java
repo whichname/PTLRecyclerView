@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/9/27.
  */
-public abstract class SimpleAdapter<T> extends MultiTypeAdapter<T> {
+public abstract class SimpleAdapter<T> extends MultiTypeAdapter {
 
     protected int mLayoutId;
 
@@ -22,21 +22,25 @@ public abstract class SimpleAdapter<T> extends MultiTypeAdapter<T> {
         return super.onCreateViewHolder(parent,viewType);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        super.onBindViewHolder(holder,position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDatas.size();
-    }
 
     @Override
     protected int getLayoutIdByType(int viewType) {
         return mLayoutId;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
+
+    @Override
+    protected void onBindViewHolder(ViewHolder holder, int type, Object data) {
+        onBindViewHolder(holder, (T)data);
+    }
+
+    /**子类需实现以下方法*/
+
+    protected abstract void onBindViewHolder(ViewHolder holder,T data);
 
 
 }

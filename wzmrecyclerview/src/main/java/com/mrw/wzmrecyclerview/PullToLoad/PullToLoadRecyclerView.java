@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +106,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (mLoadView == null) return;
-        if (mLoadView != null && mLoadViewHeight == 0) {
+        if (mLoadViewHeight == 0) {
             mLoadViewHeight = mLoadView.getMeasuredHeight();
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
             marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin - mLoadViewHeight - 1);
@@ -183,11 +184,11 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         return !ViewCompat.canScrollVertically(this, 1);
     }
 
-
     /**
      * 判断当前是拖动中还是松手刷新
      * 刷新中不在此处判断，在手指抬起时才判断
      */
+    private int lastState;
     private void setState(float distance) {
 //        刷新中，状态不变
         if (mState == STATE_LOADING) {
@@ -197,7 +198,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         }
 //        松手刷新
         else if (Math.abs(distance) >= mLoadViewHeight) {
-            int lastState = mState;
+            lastState = mState;
             mState = STATE_RELEASE_TO_LOAD;
             if (mLoadFooterCreator != null)
                 if (!mLoadFooterCreator.onReleaseToLoad(distance,lastState))
@@ -205,7 +206,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         }
 //        正在拖动
         else if (Math.abs(distance) < mLoadViewHeight) {
-            int lastState = mState;
+            lastState = mState;
             mState = STATE_PULLING;
             if (mOnLoadListener != null)
                 if (!mLoadFooterCreator.onStartPull(distance,lastState))
@@ -218,12 +219,13 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     /**
      * 拖动或回弹时，改变低部的margin
      */
+    private ViewGroup.LayoutParams layoutParams;
     private void startPull(float distance) {
 //            该view的高度不能为0，否则将无法判断是否已滑动到底部
         if (distance < 1)
             distance = 1;
         if (bottomView != null) {
-            LayoutParams layoutParams = (LayoutParams) bottomView.getLayoutParams();
+            layoutParams = bottomView.getLayoutParams();
             layoutParams.height = (int) distance;
             bottomView.setLayoutParams(layoutParams);
         }
@@ -247,7 +249,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mState = STATE_LOADING;
 //            刷新
             if (mOnLoadListener != null)
-                mOnLoadListener.onStartLoading();
+                mOnLoadListener.onStartLoading(mRealAdapter.getItemCount());
             if (mLoadFooterCreator != null)
                 mLoadFooterCreator.onStartLoading();
 //            若在onStartRefreshing中调用了completeRefresh方法，将不会滚回初始位置，因此这里需加个判断
@@ -280,7 +282,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mLoadFooterCreator.onStopLoad();
         mState = STATE_DEFAULT;
         replyPull();
-        getAdapter().notifyDataSetChanged();
+        mRealAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -301,7 +303,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter.setLoadView(mLoadView);
             mAdapter.setBottomView(bottomView);
         }
-        getAdapter().notifyDataSetChanged();
+        mRealAdapter.notifyDataSetChanged();
     }
 
     /**获得加载中View和底部填充view的个数，用于绘制分割线*/

@@ -99,7 +99,6 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         mRealAdapter.onAttachedToRecyclerView(recyclerView);
-
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;

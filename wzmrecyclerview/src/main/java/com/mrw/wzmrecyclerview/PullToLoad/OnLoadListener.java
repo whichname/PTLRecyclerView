@@ -5,6 +5,6 @@ package com.mrw.wzmrecyclerview.PullToLoad;
  */
 public interface OnLoadListener {
 
-    void onStartLoading();
+    void onStartLoading(int skip);
 
 }

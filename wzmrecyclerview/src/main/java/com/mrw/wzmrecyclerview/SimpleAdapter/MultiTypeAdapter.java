@@ -13,14 +13,16 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/9/27.
  */
-public abstract class MultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public abstract class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+    protected String TAG;
     protected Context mContext;
-    protected ArrayList<T> mDatas;
+    protected ArrayList mDatas;
 
-    public MultiTypeAdapter(Context mContext, ArrayList<T> mDatas) {
+    public MultiTypeAdapter(Context mContext, ArrayList mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
+        this.TAG = getClass().getSimpleName();
     }
 
     @Override
@@ -31,7 +33,7 @@ public abstract class MultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolde
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        onBindViewHolder(holder,mDatas.get(position));
+        onBindViewHolder(holder,getItemViewType(position),mDatas.get(position));
     }
 
     @Override
@@ -40,17 +42,19 @@ public abstract class MultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolde
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+    public long getItemId(int position) {
+        return position;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
+
+
+    /**子类需实现以下三个方法*/
 
     protected abstract int getLayoutIdByType(int viewType);
 
-    protected abstract void onBindViewHolder(ViewHolder holder,T data);
+    @Override
+    public abstract int getItemViewType(int position);
+
+    protected abstract void onBindViewHolder(ViewHolder holder,int type,Object data);
 
 }

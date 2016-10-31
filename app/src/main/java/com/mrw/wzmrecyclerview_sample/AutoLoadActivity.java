@@ -5,20 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
-import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
 import com.mrw.wzmrecyclerview.SimpleAdapter.SimpleAdapter;
 import com.mrw.wzmrecyclerview.SimpleAdapter.ViewHolder;
@@ -49,12 +46,12 @@ public class AutoLoadActivity extends AppCompatActivity {
 
         rcv = (AutoLoadRecyclerView) findViewById(R.id.rcv);
 
-        rcv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        rcv.setLayoutManager(new GridLayoutManager(this,2,LinearLayoutManager.VERTICAL,false));
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into((ImageView) holder.getConvertView());
+//                Glide.with(mContext).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.gray).into((ImageView) holder.getConvertView());
             }
         });
 //        设置刷新监听
@@ -74,7 +71,7 @@ public class AutoLoadActivity extends AppCompatActivity {
 //        设置加载监听
         rcv.setOnLoadListener(new OnLoadListener() {
             @Override
-            public void onStartLoading() {
+            public void onStartLoading(int skip) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

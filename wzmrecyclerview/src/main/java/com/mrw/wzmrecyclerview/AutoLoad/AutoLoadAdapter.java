@@ -103,4 +103,8 @@ public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFo
         notifyDataSetChanged();
     }
 
+    public View getLoadView() {
+        return this.mLoadView;
+    }
+
 }

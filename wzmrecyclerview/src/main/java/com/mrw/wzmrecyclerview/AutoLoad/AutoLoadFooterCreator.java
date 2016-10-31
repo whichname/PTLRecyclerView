@@ -14,5 +14,9 @@ public abstract class AutoLoadFooterCreator  {
      */
     protected abstract View getLoadView(Context context, RecyclerView recyclerView);
 
+    /***
+     * 没有更多
+     */
+    protected abstract View getNoMoreView(Context context,RecyclerView recyclerView);
 
 }
