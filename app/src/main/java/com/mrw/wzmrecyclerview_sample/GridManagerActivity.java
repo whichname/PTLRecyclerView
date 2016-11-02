@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
+import com.mrw.wzmrecyclerview.Manager.WZMGridLayoutManager;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
@@ -45,7 +46,7 @@ public class GridManagerActivity extends AppCompatActivity {
 
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
 
-        rcv.setLayoutManager(new GridLayoutManager(this, 2));
+        rcv.setLayoutManager(new GridLayoutManager(this,2));
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {
             @Override

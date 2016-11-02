@@ -3,7 +3,6 @@ package com.mrw.wzmrecyclerview_sample;
 import android.content.Context;
 import android.widget.ImageView;
 
-
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public class ImgDataUtil {
         return imgDatas;
     }
 
-    public static void loadImage(Context context,String url,ImageView imageView) {
-        Glide.with(context).load(url).placeholder(R.color.gray).into(imageView);
+    public static void loadImage(Context context,String url, final ImageView imageView) {
+        Glide.with(context).load(url).placeholder(R.color.gray).dontAnimate().dontTransform().into(imageView);
     }
 
 }

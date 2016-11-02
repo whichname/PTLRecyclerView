@@ -64,13 +64,13 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams layoutParams = holder.getConvertView().getLayoutParams();
                 layoutParams.height = mItemHeights.get(position%10);
                 holder.getConvertView().setLayoutParams(layoutParams);
+
                 super.onBindViewHolder(holder, position);
             }
 
             @Override
             protected void onBindViewHolder(ViewHolder holder, String data) {
-                holder.<ImageView>getView(R.id.iv).setImageDrawable(null);
-                ImgDataUtil.loadImage(mContext,data,holder.<ImageView>getView(R.id.iv));
+                ImgDataUtil.loadImage(mContext,data, holder.<ImageView>getView(R.id.iv));
             }
         });
 //        设置刷新监听

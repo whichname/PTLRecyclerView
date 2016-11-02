@@ -9,8 +9,8 @@ android {
         applicationId "com.mrw.wzmrecyclerview_sample"
         minSdkVersion 11
         targetSdkVersion 24
-        versionCode 1
-        versionName "0.1.0"
+        versionCode 100
+        versionName "1.0.0"
     }
     buildTypes {
         release {
