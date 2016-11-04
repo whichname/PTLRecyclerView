@@ -6,12 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.mrw.wzmrecyclerview.DefaultHeaderAndFooter.DefaultAutoLoadFooterCreator;
-import com.mrw.wzmrecyclerview.HeaderAndFooter.HeaderAndFooterAdapter;
-import com.mrw.wzmrecyclerview.PullToLoad.LoadFooterCreator;
+import com.mrw.wzmrecyclerview.DefaultHeaderAndFooterCreator.DefaultAutoLoadFooterCreator;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 

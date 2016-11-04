@@ -29,8 +29,7 @@ public abstract class RefreshHeaderCreator {
     public abstract void onStartRefreshing();
 
     /**刷新结束*/
-    public void onStopRefresh() {
-    }
+    public abstract void onStopRefresh();
 
     public abstract View getRefreshView(Context context,RecyclerView recyclerView);
 

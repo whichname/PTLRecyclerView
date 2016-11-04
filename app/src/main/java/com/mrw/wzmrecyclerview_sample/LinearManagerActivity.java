@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
-import com.mrw.wzmrecyclerview.Manager.WZMLinearLayoutManager;
+import com.mrw.wzmrecyclerview.LayoutManager.WZMLinearLayoutManager;
 import com.mrw.wzmrecyclerview.PullToLoad.OnLoadListener;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToRefresh.OnRefreshListener;
@@ -46,7 +45,6 @@ public class LinearManagerActivity extends AppCompatActivity {
         handler = new Handler();
 
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
-
         rcv.setLayoutManager(new WZMLinearLayoutManager(WZMLinearLayoutManager.VERTICAL));
 //        设置适配器，封装后的适配器只需要实现一个函数
         rcv.setAdapter(new SimpleAdapter<String>(this, imgs, R.layout.item_test) {

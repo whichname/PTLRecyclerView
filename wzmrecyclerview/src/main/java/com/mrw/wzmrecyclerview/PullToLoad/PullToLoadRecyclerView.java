@@ -6,12 +6,11 @@ import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mrw.wzmrecyclerview.DefaultHeaderAndFooter.DefaultLoadFooterCreator;
+import com.mrw.wzmrecyclerview.DefaultHeaderAndFooterCreator.DefaultLoadFooterCreator;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
 /**
@@ -43,7 +42,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     //    加载中
     public final static int STATE_LOADING = 3;
 
-    private float mPullRatio = 0.5f;
+    private float mLoadRatio = 0.5f;
 
 
     //   位于加载View底部的view，通过改变其高度来上拉
@@ -160,7 +159,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
                     else
                         break;
                 }
-                float distance = (int) ((mFirstY - e.getRawY())*mPullRatio);
+                float distance = (int) ((mFirstY - e.getRawY())* mLoadRatio);
 //                若向上滑动(此时加载胃部已隐藏)，不处理
                 if (distance < 0) break;
                 mPulling = true;
@@ -325,8 +324,8 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
 
 
     /**设置下拉阻尼系数*/
-    public void setPullRatio(float pullRatio) {
-        this.mPullRatio = pullRatio;
+    public void setPullLoadRatio(float loadRatio) {
+        this.mLoadRatio = loadRatio;
     }
 
 }

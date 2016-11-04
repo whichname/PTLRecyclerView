@@ -1,4 +1,4 @@
-package com.mrw.wzmrecyclerview.DefaultHeaderAndFooter;
+package com.mrw.wzmrecyclerview.DefaultHeaderAndFooterCreator;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

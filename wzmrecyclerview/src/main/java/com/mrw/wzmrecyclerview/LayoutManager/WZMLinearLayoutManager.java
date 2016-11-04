@@ -1,7 +1,6 @@
-package com.mrw.wzmrecyclerview.Manager;
+package com.mrw.wzmrecyclerview.LayoutManager;
 
 import android.content.Context;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
