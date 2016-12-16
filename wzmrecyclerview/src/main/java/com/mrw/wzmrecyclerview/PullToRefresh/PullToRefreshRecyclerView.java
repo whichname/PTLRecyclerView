@@ -257,6 +257,10 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
     /**设置自定义的刷新头部*/
     public void setRefreshViewCreator(RefreshHeaderCreator refreshHeaderCreator) {
         this.mRefreshHeaderCreator = refreshHeaderCreator;
+        if (mRefreshView != null && mAdapter != null) {
+            mAdapter.removeHeaderView(topView);
+            mAdapter.removeHeaderView(mRefreshView);
+        }
         mRefreshView = refreshHeaderCreator.getRefreshView(getContext(),this);
 //        若有适配器，添加到头部
         if (mAdapter != null) {

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mrw.wzmrecyclerview.DefaultHeaderAndFooterCreator.DefaultLoadFooterCreator;
+import com.mrw.wzmrecyclerview.DefaultHeaderAndFooterCreator.DefaultRefreshHeaderCreator;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;

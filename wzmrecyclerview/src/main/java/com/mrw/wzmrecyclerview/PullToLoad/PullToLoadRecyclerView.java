@@ -207,7 +207,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         else if (Math.abs(distance) < mLoadViewHeight) {
             lastState = mState;
             mState = STATE_PULLING;
-            if (mOnLoadListener != null)
+            if (mLoadFooterCreator != null)
                 if (!mLoadFooterCreator.onStartPull(distance,lastState))
                     return;
         }
@@ -296,9 +296,15 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
      */
     public void setLoadViewCreator(LoadFooterCreator loadViewCreator) {
         this.mLoadFooterCreator = loadViewCreator;
+        if (mLoadView != null && mAdapter != null) {
+            removeHeaderView(mLoadView);
+            mAdapter.setLoadView(null);
+            mAdapter.setBottomView(null);
+        }
+
         mLoadView = loadViewCreator.getLoadView(getContext(),this);
         if (mAdapter != null) {
-//            为了测量高度
+            addHeaderView(mLoadView);
             mAdapter.setLoadView(mLoadView);
             mAdapter.setBottomView(bottomView);
         }
