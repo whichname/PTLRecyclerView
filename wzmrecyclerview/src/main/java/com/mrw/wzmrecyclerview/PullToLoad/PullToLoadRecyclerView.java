@@ -3,6 +3,7 @@ package com.mrw.wzmrecyclerview.PullToLoad;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -98,12 +99,13 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         }
     }
 
+
     /**
-     * 在layout的时候，隐藏加载尾部
+     * 隐藏加载尾部
      */
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+    public void onDraw(Canvas c) {
+        super.onDraw(c);
         if (mLoadView == null) return;
         if (mLoadViewHeight == 0) {
             mLoadViewHeight = mLoadView.getMeasuredHeight();
@@ -128,7 +130,6 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             }
         }
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
