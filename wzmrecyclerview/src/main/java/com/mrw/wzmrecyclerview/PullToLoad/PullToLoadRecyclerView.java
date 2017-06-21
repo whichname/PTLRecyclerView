@@ -99,6 +99,19 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         }
     }
 
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec) {
+        if (mLoadView != null && mLoadViewHeight == 0) {
+            mLoadView.measure(0,0);
+            mLoadViewHeight = mLoadView.getLayoutParams().height;
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin - mLoadViewHeight - 1);
+            setLayoutParams(marginLayoutParams);
+//            高度测量之后将其从头部中去掉
+            removeHeaderView(mLoadView);
+        }
+        super.onMeasure(widthSpec, heightSpec);
+    }
 
     /**
      * 隐藏加载尾部
@@ -107,14 +120,6 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     public void onDraw(Canvas c) {
         super.onDraw(c);
         if (mLoadView == null) return;
-        if (mLoadViewHeight == 0) {
-            mLoadViewHeight = mLoadView.getMeasuredHeight();
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin - mLoadViewHeight - 1);
-            setLayoutParams(marginLayoutParams);
-//            高度测量之后将其从头部中去掉
-            removeHeaderView(mLoadView);
-        }
 //        若数据不满一屏
         if (getChildCount() >= getAdapter().getItemCount()) {
             if (mLoadView.getVisibility() != GONE) {

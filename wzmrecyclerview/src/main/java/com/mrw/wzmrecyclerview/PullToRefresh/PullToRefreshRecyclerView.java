@@ -91,18 +91,24 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
         }
     }
 
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec) {
+        if (mRefreshView != null && mRefreshViewHeight == 0) {
+            mRefreshView.measure(0,0);
+            mRefreshViewHeight = mRefreshView.getLayoutParams().height;
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin-mRefreshViewHeight-1, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin);
+            setLayoutParams(marginLayoutParams);
+        }
+        super.onMeasure(widthSpec, heightSpec);
+    }
+
     /**
      * 隐藏刷新头部
      */
     @Override
     public void onDraw(Canvas c) {
         super.onDraw(c);
-        if (mRefreshView != null && mRefreshViewHeight == 0) {
-            mRefreshViewHeight = mRefreshView.getMeasuredHeight();
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-            marginLayoutParams.setMargins(marginLayoutParams.leftMargin, marginLayoutParams.topMargin-mRefreshViewHeight-1, marginLayoutParams.rightMargin, marginLayoutParams.bottomMargin);
-            setLayoutParams(marginLayoutParams);
-        }
     }
 
     @Override
