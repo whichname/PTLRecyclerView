@@ -8,6 +8,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/9/19.
  */
@@ -125,31 +127,40 @@ public class HeaderAndFooterAdapter<T extends RecyclerView.Adapter> extends Recy
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) lp;
                 layoutParams.setFullSpan(true);
             }
+        } else {
+            ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+            if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+                StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) lp;
+                layoutParams.setFullSpan(false);
+            }
         }
     }
 
     public void addHeaderView(View view) {
         mHeaderViews.put(BASE_ITEM_TYPE_HEADER++, view);
-        notifyDataSetChanged();
+        int index = mHeaderViews.indexOfValue(view);
+        notifyItemInserted(index);
     }
 
     public void addFooterView(View view) {
         mFooterViews.put(BASE_ITEM_TYPE_FOOTER ++,view);
-        notifyDataSetChanged();
+        int index = mFooterViews.indexOfValue(view) + getHeadersCount()+getRealItemCount();
+        notifyItemInserted(index);
     }
 
     public void removeHeaderView(View view) {
         int index = mHeaderViews.indexOfValue(view);
         if (index < 0) return;
         mHeaderViews.removeAt(index);
-        notifyDataSetChanged();
+        notifyItemRemoved(index);
     }
 
     public void removeFooterView(View view) {
         int index = mFooterViews.indexOfValue(view);
         if (index < 0) return;
         mFooterViews.removeAt(index);
-        notifyDataSetChanged();
+        index = index + getHeadersCount()+getRealItemCount();
+        notifyItemRemoved(index);
     }
 
     private RecyclerView.ViewHolder createHeaderAndFooterViewHolder(View view) {

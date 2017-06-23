@@ -74,8 +74,9 @@ public class GridManagerActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        imgs.addAll(ImgDataUtil.getImgDatas());
-                        rcv.completeLoad();
+                        ArrayList<String> newImages = ImgDataUtil.getImgDatas();
+                        imgs.addAll(newImages);
+                        rcv.completeLoad(newImages.size());
                     }
                 }, 1000);
             }

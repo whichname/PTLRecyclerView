@@ -3,11 +3,21 @@ the recyclerview which is able to pull to refresh and pull to load more
 
 中文博客：http://blog.csdn.net/anyfive/article/details/53020321
 
+## Version
+
+--1.0.5
+    * bug fixed:
+        * sometimes there will has two refreshHeaders in recyclerview when init;
+        * when add/remove header/footer or load more, the items will blink;
+    * code tuning:
+        * use completeLoad(int loadItemCount) instead of completeLoad() in PullToLoadRecyclerView and AutoLoadRecyclerView
+
+
 ## How to use
 
 in android-studio :
 
-compile 'com.mrw:wzmrecyclerview:1.0.4'
+compile 'com.mrw:wzmrecyclerview:1.0.5'
 
 ## add/remove HeaderView or FooterView
 
@@ -63,7 +73,7 @@ PullToLoadRecyclerView.setLoadEnable(boolean loadMoreEnable);//set pull to load 
 
 PullToLoadRecyclerView.setPullLoadRatio(float loadRatio);
 
-PullToLoadRecyclerView.completeLoad();//complete load
+PullToLoadRecyclerView.completeLoad(int loadItemCount);//complete load
 ```
 
 U can use it just like use PullToRefreshRecyclerView.
@@ -86,7 +96,7 @@ AutoLoadRecyclerView.setOnLoadListener(OnLoadListener onLoadListener);//add OnLo
 
 AutoLoadRecyclerView.setAutoLoadViewCreator(AutoLoadFooterCreator autoLoadFooterCreator);//use your own LoadFooterView
 
-AutoLoadRecyclerView.completeLoad();//complete load
+AutoLoadRecyclerView.completeLoad(int loadItemCount);//complete load
 
 AutoLoadRecyclerView.setNoMore(boolean noMore);//set has no more data
 ```

@@ -100,10 +100,13 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
     }
 
     /**完成加载*/
-    public void completeLoad() {
+    public void completeLoad(int loadItemCount) {
         mIsLoading = false;
         setLoadingViewGone();
-        mRealAdapter.notifyDataSetChanged();
+
+        int startItem = mRealAdapter.getItemCount() + mAdapter.getHeadersCount() - loadItemCount;
+        mAdapter.notifyItemRangeInserted(startItem, loadItemCount);
+
     }
 
     /**没有更多*/
@@ -118,7 +121,6 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         }
         else if (mLoadView != null)
             mAdapter.setLoadView(mLoadView);
-        mRealAdapter.notifyDataSetChanged();
     }
 
     /**设置加载监听*/
@@ -148,14 +150,12 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
             mLoadView = null;
             mNoMoreView = null;
             mAdapter.setLoadView(mLoadView);
-            mRealAdapter.notifyDataSetChanged();
             return;
         }
         this.mAutoLoadFooterCreator = autoLoadFooterCreator;
         mLoadView = autoLoadFooterCreator.getLoadView(getContext(),this);
         mAdapter.setLoadView(mLoadView);
         mNoMoreView = autoLoadFooterCreator.getNoMoreView(getContext(),this);
-        mRealAdapter.notifyDataSetChanged();
     }
 
     public void setIsLoading(boolean isLoading) {

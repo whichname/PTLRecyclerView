@@ -57,41 +57,6 @@ public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFo
         super.onBindViewHolder(holder, position);
     }
 
-    /**解决GridLayoutManager问题*/
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        mRealAdapter.onAttachedToRecyclerView(recyclerView);
-
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager instanceof GridLayoutManager) {
-            final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position))
-                        return gridLayoutManager.getSpanCount();
-                    return 1;
-                }
-            });
-        }
-
-    }
-
-    /**解决瀑布流布局问题*/
-    @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        mRealAdapter.onViewAttachedToWindow(holder);
-        int position = holder.getLayoutPosition();
-        if (isHeaderPosition(position) || isFooterPosition(position) || isLoadPosition(position)) {
-            ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
-            if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
-                StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) lp;
-                layoutParams.setFullSpan(true);
-            }
-        }
-    }
-
-
     private boolean isLoadPosition(int position) {
         if (mLoadView == null) return false;
         return position == getItemCount()-1;
@@ -100,7 +65,7 @@ public class AutoLoadAdapter<T extends RecyclerView.Adapter> extends HeaderAndFo
     public void setLoadView(View loadView) {
         ITEM_TYPE_LOAD++;
         this.mLoadView = loadView;
-        notifyDataSetChanged();
+        notifyItemChanged(getItemCount()-1);
     }
 
     public View getLoadView() {

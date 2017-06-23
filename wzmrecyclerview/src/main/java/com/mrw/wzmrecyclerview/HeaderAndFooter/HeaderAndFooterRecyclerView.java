@@ -2,12 +2,11 @@ package com.mrw.wzmrecyclerview.HeaderAndFooter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadAdapter;
-import com.mrw.wzmrecyclerview.AutoLoad.AutoLoadRecyclerView;
 import com.mrw.wzmrecyclerview.PullToLoad.PullToLoadAdapter;
 import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 
@@ -17,14 +16,17 @@ import com.mrw.wzmrecyclerview.PullToRefresh.PullToRefreshRecyclerView;
 public class HeaderAndFooterRecyclerView extends RecyclerView {
     public HeaderAndFooterRecyclerView(Context context) {
         super(context);
+        clearItemAnimator();
     }
 
     public HeaderAndFooterRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        clearItemAnimator();
     }
 
     public HeaderAndFooterRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        clearItemAnimator();
     }
 
     protected HeaderAndFooterAdapter mAdapter;
@@ -54,6 +56,17 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         super.setAdapter(mAdapter);
         mRealAdapter.registerAdapterDataObserver(mDataObserver);
         mDataObserver.onChanged();
+    }
+
+    public void clearItemAnimator() {
+        ItemAnimator itemAnimator = getItemAnimator();
+        itemAnimator.setAddDuration(0);
+        itemAnimator.setRemoveDuration(0);
+        itemAnimator.setChangeDuration(0);
+        itemAnimator.setMoveDuration(0);
+        if (itemAnimator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) itemAnimator).setSupportsChangeAnimations(false);
+        }
     }
 
     public void addHeaderView(View view) {

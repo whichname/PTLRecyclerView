@@ -282,12 +282,14 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
     /**
      * 结束刷新
      */
-    public void completeLoad() {
+    public void completeLoad(int loadItemCount) {
         if (mLoadFooterCreator != null)
             mLoadFooterCreator.onStopLoad();
         mState = STATE_DEFAULT;
         replyPull();
-        mRealAdapter.notifyDataSetChanged();
+
+        int startItem = mRealAdapter.getItemCount() + mAdapter.getHeadersCount() - loadItemCount;
+        mAdapter.notifyItemRangeInserted(startItem, loadItemCount);
     }
 
     /**
@@ -314,7 +316,6 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter.setLoadView(mLoadView);
             mAdapter.setBottomView(bottomView);
         }
-        mRealAdapter.notifyDataSetChanged();
     }
 
     /**获得加载中View和底部填充view的个数，用于绘制分割线*/

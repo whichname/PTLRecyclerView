@@ -251,8 +251,8 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             mRefreshHeaderCreator.onStopRefresh();
         mState = STATE_DEFAULT;
         replyPull();
-        mRealAdapter.notifyDataSetChanged();
 
+        mAdapter.notifyDataSetChanged();
         setLoadingViewGone();
     }
 
@@ -274,7 +274,6 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
             addHeaderView(topView);
             addHeaderView(mRefreshView);
         }
-        mRealAdapter.notifyDataSetChanged();
     }
 
     /**获得刷新View和顶部填充view的个数，用于绘制分割线*/

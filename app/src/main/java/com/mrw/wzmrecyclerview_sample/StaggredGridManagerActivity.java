@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.mrw.wzmrecyclerview.Divider.BaseItemDecoration;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemClickListener;
 import com.mrw.wzmrecyclerview.HeaderAndFooter.OnItemLongClickListener;
@@ -49,7 +50,10 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
 
         rcv = (PullToLoadRecyclerView) findViewById(R.id.rcv);
 
-        rcv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+
+        rcv.setLayoutManager(staggeredGridLayoutManager);
 
         for (int i = 0; i < 10;i++) {
             mItemHeights.add((int) ((i+1)/5.0*500));
@@ -94,8 +98,9 @@ public class StaggredGridManagerActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        imgs.addAll(ImgDataUtil.getImgDatas());
-                        rcv.completeLoad();
+                        ArrayList<String> newImages = ImgDataUtil.getImgDatas();
+                        imgs.addAll(newImages);
+                        rcv.completeLoad(newImages.size());
                     }
                 }, 1000);
             }
