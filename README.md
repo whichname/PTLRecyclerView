@@ -6,12 +6,11 @@ the recyclerview which is able to pull to refresh and pull to load more
 ## Version
 
 --1.0.5
-    * bug fixed:
-        * sometimes there will has two refreshHeaders in recyclerview when init;
-        * when add/remove header/footer or load more, the items will blink;
-    * code tuning:
-        * use completeLoad(int loadItemCount) instead of completeLoad() in PullToLoadRecyclerView and AutoLoadRecyclerView
-
+* bug fixed:
+    * sometimes there will has two refreshHeaders in recyclerview when init;
+    * when add/remove header/footer or load more, the items will blink;
+* code tuning:
+    * use completeLoad(int loadItemCount) instead of completeLoad() in PullToLoadRecyclerView and AutoLoadRecyclerView
 
 ## How to use
 
