@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +114,8 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        Log.e("ptlrecyclerviewsample","======="+e.getAction());
+
 //        若是不可以下拉
         if (!mRefreshEnable) return super.onTouchEvent(e);
 //        若刷新头部为空，不处理
@@ -143,6 +146,7 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
                 }
                 setState(distance);
                 return true;
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 replyPull();
                 break;

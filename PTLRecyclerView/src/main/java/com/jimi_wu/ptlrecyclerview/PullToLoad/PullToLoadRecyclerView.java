@@ -172,6 +172,7 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
                 }
                 setState(distance);
                 return true;
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 replyPull();
                 break;

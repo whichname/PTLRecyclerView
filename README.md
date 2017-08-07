@@ -5,9 +5,10 @@ the recyclerview which is able to pull to refresh and pull to load more
 
 ## Version
 
---1.1.0
+--1.1.1
 * bug fixed:
     * EmptyView will be invalid in PullToLoadRecyclerView;
+    * there maybe some touch-event bug when use PTLRecyclerView with ViewPager;
 * extend：
     * when the items can't fill the RecyclerView, the LoadFooter will be invisible;
     * PullToLoadRecyclerView's loading-footer add nomore style;
@@ -23,7 +24,7 @@ the recyclerview which is able to pull to refresh and pull to load more
 
 in android-studio :
 
-compile 'com.mrw:PTLRecyclerView:1.1.0'
+compile 'com.mrw:PTLRecyclerView:1.1.1'
 
 
 ## add/remove HeaderView or FooterView
