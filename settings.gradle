@@ -1,1 +1,1 @@
-include ':app', ':wzmrecyclerview'
+include ':app', ':PTLRecyclerView'

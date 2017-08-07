@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.1"
-
-
+    compileSdkVersion 25
+    buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.mrw.wzmrecyclerview_sample"
-        minSdkVersion 11
-        targetSdkVersion 24
-        versionCode 100
-        versionName "1.0.0"
+        applicationId "com.jimi_wu.ptlrecyclerviewsample"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -21,8 +20,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':wzmrecyclerview')
+    compile project(':PTLRecyclerView')
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }
-

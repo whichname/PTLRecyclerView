@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mrw.wzmrecyclerview.PullToLoad.PullToLoadRecyclerView
+    <com.jimi_wu.ptlrecyclerview.PullToLoad.PullToLoadRecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

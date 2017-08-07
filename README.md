@@ -1,9 +1,16 @@
-# WZMRecyclerView
+# PTLRecyclerView
 the recyclerview which is able to pull to refresh and pull to load more
 
 中文博客：http://blog.csdn.net/anyfive/article/details/53020321
 
 ## Version
+
+--1.1.0
+* bug fixed:
+    * EmptyView will be invalid in PullToLoadRecyclerView;
+* extend：
+    * when the items can't fill the RecyclerView, the LoadFooter will be invisible;
+    * PullToLoadRecyclerView's loading-footer add nomore style;
 
 --1.0.5
 * bug fixed:
@@ -16,7 +23,8 @@ the recyclerview which is able to pull to refresh and pull to load more
 
 in android-studio :
 
-compile 'com.mrw:wzmrecyclerview:1.0.5'
+compile 'com.mrw:PTLRecyclerView:1.1.0'
+
 
 ## add/remove HeaderView or FooterView
 
@@ -32,13 +40,13 @@ HeaderAndFooterRecyclerView.setOnItemClickListener(OnItemClickListener onItemCli
 HeaderAndFooterRecyclerView.setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener);//add onItemLongClickListener
 ```
 
-![头尾部](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/HF.gif?raw=true)
+![头尾部](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/HF.gif?raw=true)
 
 
-![Grid头尾部](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/HF_GRID.gif?raw=true)
+![Grid头尾部](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/HF_GRID.gif?raw=true)
 
 
-![Staggred头尾部](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/HF_STAGGRED.gif?raw=true)
+![Staggred头尾部](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/HF_STAGGRED.gif?raw=true)
 
 
 ## PullToRefresh
@@ -77,14 +85,14 @@ PullToLoadRecyclerView.completeLoad(int loadItemCount);//complete load
 
 U can use it just like use PullToRefreshRecyclerView.
 
-**Notice: if u want to use PullToLoadRecyclerView,use WZMLinearLayoutManager instead of LinearLayoutManager,use WZMGridLayoutManager instead of GridLayoutManager.**
+**Notice: if u want to use PullToLoadRecyclerView,use PTLLinearLayoutManager instead of LinearLayoutManager,use PTLGridLayoutManager instead of GridLayoutManager.**
 
  
-![刷新加载](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/PTR_PTL.gif?raw=true)
+![刷新加载](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/PTR_PTL.gif?raw=true)
 
-![Grid刷新加载](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/PTR_PTL_GRID.gif?raw=true)
+![Grid刷新加载](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/PTR_PTL_GRID.gif?raw=true)
 
-![Staggred刷新加载](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/PTR_PTL_STAGGRED.gif?raw=true)
+![Staggred刷新加载](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/PTR_PTL_STAGGRED.gif?raw=true)
 
 ## AutoLoad
 
@@ -101,13 +109,13 @@ AutoLoadRecyclerView.setNoMore(boolean noMore);//set has no more data
 ```
 
 
-![Grid自动加载](https://github.com/whichname/WZMRecyclerView/blob/master/screenshot/ATL_GRID.gif?raw=true)
+![Grid自动加载](https://github.com/whichname/PTLRecyclerView/blob/master/screenshot/ATL_GRID.gif?raw=true)
 
 
 ## use your own Refresh-Header-View
 
 1. New a class extends RefreshHeaderCreator
-2. Override five fuctions:
+2. Override five functions:
 ```
 /**
 * @param distance:the distance of pull
@@ -240,7 +248,7 @@ public class DefaultRefreshHeaderCreator extends RefreshHeaderCreator {
 ## user your own Load-Footer-View:
 
 1. New a class extends LoadFooterCreator;
-2. Override five fuctions:
+2. Override six fuctions:
 ```
 /**
 * @param distance:the distance of pull
@@ -270,6 +278,11 @@ public abstract void onStopRefresh();
 *return the load footerview
 */
 protected abstract View getLoadView(Context context, RecyclerView recyclerView);
+
+/**
+*return the nomore footerview
+*/
+protected View getNoMoreView(Context context, RecyclerView recyclerView) {return null;}
 
 ```
 3. Call PullToLoadRecyclerView.setLoadViewCreator.
