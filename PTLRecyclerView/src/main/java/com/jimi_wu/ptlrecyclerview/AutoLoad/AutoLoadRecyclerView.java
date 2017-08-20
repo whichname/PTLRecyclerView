@@ -60,6 +60,7 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
         super.onDraw(c);
         if (mLoadView == null) return;
 //        若数据不满一屏
+        if (getAdapter() == null) return;
         if (getChildCount() >= getAdapter().getItemCount()) {
             if (mLoadView.getVisibility() != GONE) {
                 mLoadView.setVisibility(GONE);

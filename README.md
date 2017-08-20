@@ -24,7 +24,7 @@ the recyclerview which is able to pull to refresh and pull to load more
 
 in android-studio :
 
-compile 'com.mrw:PTLRecyclerView:1.1.1'
+compile 'com.jimi_wu:PTLRecyclerView:1.1.1'
 
 
 ## add/remove HeaderView or FooterView

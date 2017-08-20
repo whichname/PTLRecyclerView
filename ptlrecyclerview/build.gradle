@@ -29,7 +29,7 @@ dependencies {
 
 def siteUrl = 'https://github.com/whichname/PTLRecyclerView'      // 项目的主页
 def gitUrl = 'https://github.com/whichname/PTLRecyclerView.git'   // Git仓库的url
-group = "com.mrw"                                        // Maven Group ID for the artifact，一般填你唯一的包名
+group = "com.jimi_wu"                                        // Maven Group ID for the artifact，一般填你唯一的包名
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
