@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -69,6 +70,7 @@ public class DefaultLoadFooterCreator extends LoadFooterCreator {
     @Override
     public void onStopLoad() {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
     }
@@ -97,14 +99,19 @@ public class DefaultLoadFooterCreator extends LoadFooterCreator {
 
     private void startArrowAnim(float roration) {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
+        final float fRoration = roration;
         float startRotation = iv.getRotation();
-        ivAnim = ObjectAnimator.ofFloat(startRotation, roration).setDuration(rotationDuration);
+        ivAnim = ObjectAnimator.ofFloat(startRotation, fRoration).setDuration(rotationDuration);
         ivAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 iv.setRotation((Float) animation.getAnimatedValue());
+                if(((Float) animation.getAnimatedValue()) == fRoration) {
+                    ivAnim.removeAllUpdateListeners();
+                }
             }
         });
         ivAnim.start();
@@ -112,6 +119,7 @@ public class DefaultLoadFooterCreator extends LoadFooterCreator {
 
     private void startLoadingAnim() {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
         ivAnim = ObjectAnimator.ofFloat(0,360).setDuration(loadingDuration);

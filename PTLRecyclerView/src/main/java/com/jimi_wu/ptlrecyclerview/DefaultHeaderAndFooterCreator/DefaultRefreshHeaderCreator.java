@@ -46,6 +46,7 @@ public class DefaultRefreshHeaderCreator extends RefreshHeaderCreator {
     @Override
     public void onStopRefresh() {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
     }
@@ -81,14 +82,19 @@ public class DefaultRefreshHeaderCreator extends RefreshHeaderCreator {
 
     private void startArrowAnim(float roration) {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
+        final float fRoration = roration;
         float startRotation = iv.getRotation();
-        ivAnim = ObjectAnimator.ofFloat(startRotation,roration).setDuration(rotationDuration);
+        ivAnim = ObjectAnimator.ofFloat(startRotation,fRoration).setDuration(rotationDuration);
         ivAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 iv.setRotation((Float) animation.getAnimatedValue());
+                if(((Float) animation.getAnimatedValue()) == fRoration) {
+                    ivAnim.removeAllUpdateListeners();
+                }
             }
         });
         ivAnim.start();
@@ -96,6 +102,7 @@ public class DefaultRefreshHeaderCreator extends RefreshHeaderCreator {
 
     private void startLoadingAnim() {
         if (ivAnim != null) {
+            ivAnim.removeAllUpdateListeners();
             ivAnim.cancel();
         }
         ivAnim = ObjectAnimator.ofFloat(0,360).setDuration(loadingDuration);

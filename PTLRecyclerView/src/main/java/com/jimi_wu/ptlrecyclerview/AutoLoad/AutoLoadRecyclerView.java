@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.jimi_wu.ptlrecyclerview.DefaultHeaderAndFooterCreator.DefaultAutoLoadFooterCreator;
@@ -86,6 +87,15 @@ public class AutoLoadRecyclerView extends PullToRefreshRecyclerView {
             mAdapter.setLoadView(mLoadView);
         }
 
+    }
+
+    /**注销监听，防止内存泄露*/
+    @Override
+    protected void onDetachedFromWindow() {
+        if(mAutoLoadFooterCreator != null && mAutoLoadFooterCreator instanceof DefaultAutoLoadFooterCreator) {
+            ((DefaultAutoLoadFooterCreator) mAutoLoadFooterCreator).cancelListener();
+        }
+        super.onDetachedFromWindow();
     }
 
     @Override
