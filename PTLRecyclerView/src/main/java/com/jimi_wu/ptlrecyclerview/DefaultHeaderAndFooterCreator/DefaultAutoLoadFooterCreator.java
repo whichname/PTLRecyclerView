@@ -65,6 +65,7 @@ public class DefaultAutoLoadFooterCreator extends AutoLoadFooterCreator {
     //注销监听，防止内存泄露
     public void cancelListener() {
         ivAnim.removeAllUpdateListeners();
+        ivAnim.cancel();
     }
 
 }

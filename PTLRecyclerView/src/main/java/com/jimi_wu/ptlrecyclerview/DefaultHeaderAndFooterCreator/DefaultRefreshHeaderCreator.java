@@ -94,6 +94,7 @@ public class DefaultRefreshHeaderCreator extends RefreshHeaderCreator {
                 iv.setRotation((Float) animation.getAnimatedValue());
                 if(((Float) animation.getAnimatedValue()) == fRoration) {
                     ivAnim.removeAllUpdateListeners();
+                    ivAnim.cancel();
                 }
             }
         });

@@ -154,6 +154,14 @@ public class PullToRefreshRecyclerView extends HeaderAndFooterRecyclerView {
         return super.onTouchEvent(e);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        if(mRefreshHeaderCreator != null) {
+            mRefreshHeaderCreator.onStopRefresh();
+        }
+        super.onDetachedFromWindow();
+    }
+
     /***
      * 判断是否滑动到了顶部
      */

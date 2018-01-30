@@ -111,6 +111,7 @@ public class DefaultLoadFooterCreator extends LoadFooterCreator {
                 iv.setRotation((Float) animation.getAnimatedValue());
                 if(((Float) animation.getAnimatedValue()) == fRoration) {
                     ivAnim.removeAllUpdateListeners();
+                    ivAnim.cancel();
                 }
             }
         });

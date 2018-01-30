@@ -181,6 +181,14 @@ public class PullToLoadRecyclerView extends PullToRefreshRecyclerView {
         return super.onTouchEvent(e);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        if(mLoadFooterCreator != null) {
+            mLoadFooterCreator.onStopLoad();
+        }
+        super.onDetachedFromWindow();
+    }
+
     /**
      * 判断是否滑动到底部
      */
